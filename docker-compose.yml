@@ -1,0 +1,40 @@
+#services:
+#  postgres:
+#    environment:
+#      POSTGRES_DB: pmp
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: 011000101
+#    volumes:
+#      - pmp_dump.sql:/docker-entrypoint-initdb.d/pmp_dump.sql
+#      -
+#version: '3.8'
+#services:
+#  postgres:
+#    image: postgres:latest
+#    restart: always
+#    environment:
+#      POSTGRES_DB: pmp
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: 011000101
+#    ports:
+#      - '5440:5432'
+#    volumes:
+#      #db:/var/lib/postgresql/data
+#      - ./pmp_dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+#volumes:
+#  db:
+#    driver: local
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    restart: always
+    environment:
+      POSTGRES_DB: pmp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 011000101
+    ports:
+      - '5440:5432'
+    volumes:
+      #db:/var/lib/postgresql/data
+      - ./pmp_dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
