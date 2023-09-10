@@ -4,7 +4,7 @@ from utils.auth import verify_token as jwt_verify
 
 def verify_token(request):
     token=request.headers["Authorization"] #Takes the Access Token
-    user=request.GET["user"] #Takes the "user" param from url 
+    user=request.GET["user"] #Takes the "user" param from 
     authorised=jwt_verify(token,user)
     if(authorised):
         return JsonResponse({"status":200,"message":"User Successfully Logged In"},safe=False)
