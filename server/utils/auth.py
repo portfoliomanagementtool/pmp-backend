@@ -1,10 +1,13 @@
 import jwt
 try:
-    pemfile = open(r"secrets\key.pem", 'r')
+    pemfile = open(r"secrets/key.pem", 'r')
     keystring = pemfile.read()
     pemfile.close()
 except Exception as e:
+    import os
+    print(os.getcwd())
     raise(SystemExit("Could Not Find the File : secrets/key.pem. Please Create secrets/key.pem based on secrets.example"))
+
     
 
 def verify_token(token,user):
