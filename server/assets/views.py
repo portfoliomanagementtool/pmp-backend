@@ -6,8 +6,10 @@ from assets.models import Asset
 from logging import Logger
 from rest_framework import status,generics
 from rest_framework.parsers import FileUploadParser,MultiPartParser
+from pmp_auth.decorators import auth_required
 log=Logger("Asset Log")
 # Create your views here.
+# @auth_required
 class AssetListCreateView(generics.ListCreateAPIView):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
@@ -35,6 +37,7 @@ def insert_csv(request):
         serializer.save()
         return Response(status=status.HTTP_200_OK,data={"message":"Excel file received"})
     return Response(status=400,data={"message":"Invalid Excel file"})
+
 # @api_view(['GET'])
 # def get_asset(request):
 #     assets=Asset.objects.all()
