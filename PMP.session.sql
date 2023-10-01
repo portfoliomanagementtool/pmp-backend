@@ -11,3 +11,7 @@ INSERT INTO asset(ticker,category,name,description) values('REL','NSE','Reliance
 --@block 
 ALTER TABLE asset 
 ADD PRIMARY KEY (ID);
+
+--@block 
+-- SET  FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE asset CASCADE;
