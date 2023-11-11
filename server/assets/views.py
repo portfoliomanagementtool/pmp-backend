@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from .serializers import AssetSerializer
 from assets.models import Asset
 from logging import Logger
+from rest_framework import filters
 from rest_framework import status,generics
 from rest_framework.parsers import FileUploadParser,MultiPartParser
 from pmp_auth.decorators import auth_required
@@ -11,13 +12,50 @@ log=Logger("Asset Log")
 # Create your views here.
 # @auth_required
 class AssetListCreateView(generics.ListCreateAPIView):
+    search_fields = ['ticker', 'category', 'name','description']
+    filter_backends = (filters.SearchFilter,)
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        ticker = self.request.query_params.get('ticker', None)
+        category = self.request.query_params.get('category', None)
+        name = self.request.query_params.get('name', None)
+        description = self.request.query_params.get('description', None)
+
+        if ticker:
+            queryset = queryset.filter(ticker=ticker)
+        if category:
+            queryset = queryset.filter(category=category)
+        if name:
+            queryset = queryset.filter(name=name)
+        if description:
+            queryset = queryset.filter(description=description)
+
+        return queryset
 
 class AssetRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializer
+    def get_queryset(self):
+        queryset = super().get_queryset()
 
+        ticker = self.request.query_params.get('ticker', None)
+        category = self.request.query_params.get('category', None)
+        name = self.request.query_params.get('name', None)
+        description = self.request.query_params.get('description', None)
+
+        if ticker:
+            queryset = queryset.filter(ticker=ticker)
+        if category:
+            queryset = queryset.filter(category=category)
+        if name:
+            queryset = queryset.filter(name=name)
+        if description:
+            queryset = queryset.filter(description=description)
+
+        return queryset
 
 
 @api_view(['POST'])

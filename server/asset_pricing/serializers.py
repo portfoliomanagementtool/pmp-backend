@@ -1,7 +1,7 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from .models import asset_pricing
 
-class AssetPricingSerializer(ModelSerializer):
+class AssetPricingSerializer(serializers.ModelSerializer):
     class Meta:
-        model=asset_pricing
-        fields='__all__'
+        model = asset_pricing
+        fields = '__all__'
