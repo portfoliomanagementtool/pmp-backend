@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'assets',
     'asset_pricing',
-    'rest_framework'
+    'rest_framework',
+    'pmp_user',
 ]
 
 MIDDLEWARE = [
