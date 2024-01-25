@@ -21,7 +21,7 @@ class asset_pricingListCreateView(generics.ListCreateAPIView):
 
         ticket = self.request.query_params.get('ticket', None)
         market_traded = self.request.query_params.get('market_traded', None)
-        timestamp1 = self.request.query_params.get('timestamp1', None)
+        timestamp1 = self.request.query_params.get('timestamp', None)
 
         if ticket:
             queryset = queryset.filter(ticket=ticket)

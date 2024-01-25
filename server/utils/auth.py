@@ -17,6 +17,7 @@ def verify_token(token,user):
         tkn=token.split(" ")
         token=tkn[-1]
         payload = jwt.decode(token, keystring,algorithms=["RS256"], verify=True)
+        print(payload)
         return payload["sub"]==user
     except Exception as e:
         print("Error Occured",e)

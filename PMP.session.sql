@@ -62,3 +62,7 @@ SELECT create_hypertable('portfolio', 'timestamp3');
 
 --@block
 drop table portfolio;
+
+
+--@block
+CREATE DATABASE questionaire

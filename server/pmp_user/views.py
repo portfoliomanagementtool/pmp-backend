@@ -10,8 +10,8 @@ from rest_framework import filters, status, generics
 from rest_framework.parsers import FileUploadParser, MultiPartParser
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-
-
+from pmp_auth.decorators import jwt_verify
+import json
 # Create your views here.
 @auth_required
 @csrf_exempt
@@ -20,12 +20,40 @@ def list_users(request):
     return Response({"message":"List of users"},status=200)
 
 
+
+
 # @auth_required
 class UserListCreateView(generics.ListCreateAPIView):
     search_fields = ['uuid', 'name', 'email','phone']
     filter_backends = (filters.SearchFilter,)
     queryset = pmp_user.objects.all()
     serializer_class = UserSerializer
+
+    # def post(self, request, *args, **kwargs):
+    #     token=None
+    #     user=None
+    #     try:
+    #         token=request.headers["Authorization"]
+            
+    #     except KeyError:
+    #         return JsonResponse(status=403,data={"message":"Token missing. Please add Token to header as Authorization : Bearer ..."})
+    #     try:
+    #         received_json_data=json.loads(request.body)
+    #         user=received_json_data["uuidd"]
+    #     except KeyError:
+    #         return JsonResponse(status=400,data={"message":"User missing. Please add a parameter as user=user_id"})
+    #     except Exception as e:
+    #         print(e)
+    #         return JsonResponse(status=400,data={"message":"User missing. Please add a parameter as user=user_id"})
+    #     verification=jwt_verify(token,user)
+    #     if(verification):
+    #         return self.create(request, *args, **kwargs)
+    #     else:
+    #         return JsonResponse({"status_code": 403,"status_msg":"Invalid Token"},status=403, safe=False)
+        
+        
+    #     return self.create(request, *args, **kwargs)
+
     def get_queryset(self):
         queryset = super().get_queryset()
 
