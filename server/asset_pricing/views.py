@@ -11,7 +11,7 @@ log=Logger("asset_pricing Log")
 # Create your views here.
 # @auth_required
 class asset_pricingListCreateView(generics.ListCreateAPIView):
-    search_fields = ['ticket', 'market_traded', 'timestamp1']
+    search_fields = ['market_traded', 'timestamp1']
     filter_backends = (filters.SearchFilter,)
     queryset = asset_pricing.objects.all()
     serializer_class = AssetPricingSerializer
@@ -19,12 +19,12 @@ class asset_pricingListCreateView(generics.ListCreateAPIView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        ticket = self.request.query_params.get('ticket', None)
+        ticket = self.request.query_params.get('ticker', None)
         market_traded = self.request.query_params.get('market_traded', None)
         timestamp1 = self.request.query_params.get('timestamp', None)
 
         if ticket:
-            queryset = queryset.filter(ticket=ticket)
+            queryset = queryset.filter(ticker=ticket)
         if market_traded:
             queryset = queryset.filter(market_traded=market_traded)
         if timestamp1:
