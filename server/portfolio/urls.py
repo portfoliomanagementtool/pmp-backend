@@ -3,9 +3,16 @@ from . import views
 
 
 urlpatterns = [
-    path('users/list', views.list_users),
-    path('users/create', views.UserListCreateView.as_view(), name='pmp-create-users'),
-    path('users/<str:pk>/delete/', views.UserRetrieveUpdateDestroyView.as_view(), name='pmp-delete-user'),
-
+    path('buy', views.buy_asset),
+    path('sell', views.sell_asset),
+    path('transactions', views.list_transactions),
+    path('portfolios', views.list_portfolio),
+    path('watchlist', views.list_watchlists),
+    path('watchlist/add', views.add_watchlist),
+    path('watchlist/delete', views.delete_watchlist),
+    path('watchlist/<int:watchlist_id>', views.list_assets_in_watchlist),
+    path('watchlist/<int:watchlist_id>/add', views.add_asset_to_watchlist),
+    path('watchlist/<int:watchlist_id>/delete', views.delete_asset_from_watchlist),
+    
 ]
 

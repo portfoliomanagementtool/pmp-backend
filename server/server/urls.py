@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('assets.urls')),
     path('', include('asset_pricing.urls')),
     path('user/', include('pmp_user.urls')),
+    path('portfolio/', include('portfolio.urls')),
 ]

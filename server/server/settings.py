@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'asset_pricing',
     'rest_framework',
     'pmp_user',
+    'portfolio',
 ]
 
 MIDDLEWARE = [

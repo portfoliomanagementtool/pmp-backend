@@ -8,4 +8,4 @@ class pmp_user(models.Model):
     phone = models.BigIntegerField("Enter Phone Number",null=False)
 
     class Meta:
-        db_table = "users"
+        db_table = "pmp_users"
