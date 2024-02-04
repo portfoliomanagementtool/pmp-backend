@@ -24,6 +24,10 @@ SELECT * from asset_pricing1;
 
 
 --@block
+Create DATABASE pmp1;
+
+
+--@block
 CREATE TABLE asset_pricing1 (
     Ticket text NOT NULL,
     Market_Traded text NOT NULL,

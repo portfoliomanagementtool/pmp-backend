@@ -4,7 +4,7 @@ from pmp_auth.decorators import auth_required
 from .models import TransactionItem,Watchlist,Portfolio
 import json
 from assets.models import Asset
-from .serializers import TransactionItemSerializer,PortfolioSerializer
+from .serializers import TransactionItemSerializer,PortfolioSerializer,WatchlistSerializer,WatchlistWithAssestsSerializer 
 from django.db import transaction
 # Create your views here.
 @auth_required
@@ -52,7 +52,7 @@ def sell_asset(request):
                     raise Exception("Not enough quantity to sell")
                 portfolio.quantity=total_quantity
                 portfolio.save()
-            return JsonResponse(status=200,data={"message":"Asset bought successfully"})
+            return JsonResponse(status=200,data={"message":"Asset sold successfully"})
         
         return JsonResponse(status=400,data={"message":"Error while buying the Asset"})
 
@@ -66,7 +66,7 @@ def list_transactions(request):
         user=request.pmp_user
         transactions=TransactionItem.objects.filter(user=user)
 
-        return JsonResponse(status=200,data={"message":"Portfolio items fetched successfully","data":TransactionItemSerializer(transactions,many=True).data})
+        return JsonResponse(status=200,data={"message":"Transactions fetched successfully","data":TransactionItemSerializer(transactions,many=True).data})
     except Exception as e:
         print(e)
         return JsonResponse(status=400,data={"message":"Error while fetching portfolio items"})
@@ -91,21 +91,95 @@ def list_portfolio(request):
     except Exception as e:
         print(e)
         return JsonResponse(status=400,data={"message":"Error while fetching portfolio items"})
+@auth_required
 def list_watchlists(request):
-    pass
+    try:
+        user=request.pmp_user
+        watchlists=Watchlist.objects.filter(pmp_user=user)
+        return JsonResponse(status=200,data={"message":"Fetched a Watchlist Successfully","data":WatchlistSerializer(watchlists,many=True).data})
+    
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while fetching the Watchlist"})
 
+@auth_required
 def add_watchlist(request):
+    try:
+        user=request.pmp_user
+        data=json.loads(request.body.decode("utf-8"))
+        Watchlist.objects.create(pmp_user=user,name=data["name"])
+        return JsonResponse(status=200,data={"message":"Added a Watchlist Successfully"})
+    
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while fetching the Watchlist"})
+
+
     pass
 
 def delete_watchlist(request):
     pass
+@auth_required
+def list_assets_in_watchlist(request,watchlist_id):
+    try:
+        user=request.pmp_user
+        watchlists=Watchlist.objects.get(id=watchlist_id)
+        if watchlists is None:
+            return JsonResponse(status=400,data={"message":"Watchlist not found"})
+        if watchlists.pmp_user!=user:
+            return JsonResponse(status=400,data={"message":"User does not have access to this watchlist"})
+        
+        return JsonResponse(status=200,data={"message":"Fetched a Watchlist Successfully","data":WatchlistWithAssestsSerializer(watchlists).data})
+    
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while fetching the Watchlist"})
 
-def list_assets_in_watchlist(request):
-    pass
+@auth_required
+def add_asset_to_watchlist(request,watchlist_id):
+    try:
+        user=request.pmp_user
+        data=json.loads(request.body.decode("utf-8"))
+        watchlist=Watchlist.objects.get(id=watchlist_id)
+        if watchlist is None:
+            return JsonResponse(status=400,data={"message":"Watchlist not found"})
+        if watchlist.pmp_user!=user:
+            return JsonResponse(status=400,data={"message":"User does not have access to this watchlist"})
+        
+        asset=Asset.objects.get(ticker=data["ticker"])
+        if asset is None:
+            return JsonResponse(status=400,data={"message":"Asset not found"})
+        
+        watchlist.watchlist_assets.add(asset)
+        watchlist.save()
 
-def add_asset_to_watchlist(request):
-    pass
+        return JsonResponse(status=200,data={"message":"Added asset to Watchlist Successfully"})
+    
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Watchlist or Asset Not Found"})
 
-def delete_asset_from_watchlist(request):
-    pass
+@auth_required
+def delete_asset_from_watchlist(request,watchlist_id):
+    try:
+        user=request.pmp_user
+        data=json.loads(request.body.decode("utf-8"))
+        watchlist=Watchlist.objects.get(id=watchlist_id)
+        if watchlist is None:
+            return JsonResponse(status=400,data={"message":"Watchlist not found"})
+        if watchlist.pmp_user!=user:
+            return JsonResponse(status=400,data={"message":"User does not have access to this watchlist"})
+        
+        asset=Asset.objects.get(ticker=data["ticker"])
+        if asset is None:
+            return JsonResponse(status=400,data={"message":"Asset not found"})
+        watchlist.watchlist_assets.remove(asset)
+        watchlist.save()
+
+        return JsonResponse(status=200,data={"message":"Removed asset to Watchlist Successfully"})
+    
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Watchlist or Asset Not Found"})
+
 

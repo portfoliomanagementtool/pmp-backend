@@ -7,3 +7,10 @@ class AssetPricingSerializer(serializers.ModelSerializer):
     class Meta:
         model = asset_pricing
         fields = '__all__'
+
+
+class LatestAssetPricingSerializer(serializers.ModelSerializer):
+    ticket=AssetSerializer(many=False, read_only=True)
+    class Meta:
+        model = asset_pricing
+        fields = '__all__'

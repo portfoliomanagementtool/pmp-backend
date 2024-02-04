@@ -7,7 +7,7 @@
             "driver": "PostgreSQL",
             "name": "PMP",
             "username": "postgres",
-            "database": "pmp",
+            "database": "pmp1",
             "password": "2359361"
         }
     ]
