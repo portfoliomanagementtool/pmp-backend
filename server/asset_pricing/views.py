@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view,parser_classes
 from rest_framework.response import Response
-from .serializers import AssetPricingSerializer,LatestAssetPricingSerializer
+from .serializers import AssetPricingSerializer
 from asset_pricing.models import asset_pricing
 from logging import Logger
 from rest_framework import filters
@@ -38,7 +38,7 @@ class Latest_Asset_PricingListCreateView(generics.ListCreateAPIView):
     search_fields = ['market_traded', 'timestamp1']
     filter_backends = (filters.SearchFilter,)
     queryset = asset_pricing.objects.all()
-    serializer_class = LatestAssetPricingSerializer
+    serializer_class = AssetPricingSerializer
 
     def get_queryset(self):
         queryset = super().get_queryset()

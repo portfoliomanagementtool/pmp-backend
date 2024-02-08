@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view,parser_classes
 from rest_framework.response import Response
-from .serializers import AssetSerializer
+from .serializers import AssetSerializer,AssetSerializerWithPricing
 from assets.models import Asset
 from logging import Logger
 from rest_framework import filters
@@ -15,7 +15,7 @@ class AssetListCreateView(generics.ListCreateAPIView):
     search_fields = ['ticker', 'category', 'name','description']
     filter_backends = (filters.SearchFilter,)
     queryset = Asset.objects.all()
-    serializer_class = AssetSerializer
+    serializer_class = AssetSerializerWithPricing
     def get_queryset(self):
         queryset = super().get_queryset()
 
@@ -37,7 +37,7 @@ class AssetListCreateView(generics.ListCreateAPIView):
 
 class AssetRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Asset.objects.all()
-    serializer_class = AssetSerializer
+    serializer_class = AssetSerializerWithPricing
     def get_queryset(self):
         queryset = super().get_queryset()
 
