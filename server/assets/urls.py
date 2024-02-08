@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('assets/', views.AssetListCreateView.as_view(), name='asset-list-create'),
+    path('assets', views.AssetListCreateView.as_view(), name='asset-list-create'),
     path('assets/<str:pk>/',views. AssetRetrieveUpdateDestroyView.as_view(), name='asset-detail'),
     path('assets/bulk_insert',views.insert_csv, name='bulk-insert')
 

@@ -14,3 +14,4 @@ class LatestAssetPricingSerializer(serializers.ModelSerializer):
     class Meta:
         model = asset_pricing
         fields = '__all__'
+        
