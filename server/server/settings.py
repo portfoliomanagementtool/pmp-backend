@@ -56,8 +56,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:*","https://localhost:*","https://*","http://*"]
-
 
 ROOT_URLCONF = 'server.urls'
 
@@ -79,7 +77,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
+CORS_ALLOWED_ORIGINS = ["http://localhost:*","https://localhost:*","https://*","http://*"]
 
+
+CORS_ORIGIN_ALLOW_ALL = True
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
