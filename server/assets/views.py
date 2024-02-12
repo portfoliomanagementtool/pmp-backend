@@ -75,6 +75,24 @@ def insert_csv(request):
         serializer.save()
         return Response(status=status.HTTP_200_OK,data={"message":"Excel file received"})
     return Response(status=400,data={"message":"Invalid Excel file"})
+@api_view(['POST'])
+@parser_classes([FileUploadParser])
+def insert_csv_alphavantage(request):
+    f=request.FILES["file"]
+
+
+    import pandas
+    df=pandas.read_excel(f,sheet_name='Assets')
+    # print(df.head()['Ticker','Category','Name'])
+    df.rename(columns={'Ticker':'ticker','Category':'category','Name':'name'},inplace=True)
+    print(df.head())
+    df['description']=df['name']
+    serializer=AssetSerializer(data=df.to_dict('records'),many=True)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(status=status.HTTP_200_OK,data={"message":"Excel file received"})
+    return Response(status=400,data={"message":"Invalid Excel file"})
+
 
 # @api_view(['GET'])
 # def get_asset(request):
