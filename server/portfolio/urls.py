@@ -13,7 +13,7 @@ urlpatterns = [
     path('watchlist/<int:watchlist_id>', views.list_assets_in_watchlist),
     path('watchlist/<int:watchlist_id>/add', views.add_asset_to_watchlist),
     path('watchlist/<int:watchlist_id>/delete', views.delete_asset_from_watchlist),
-    path('watchlist/getmetrics', views.get_user_metrics),
+    path('getmetrics', views.get_user_metrics),
     
 ]
 

@@ -20,11 +20,11 @@ TRUNCATE TABLE asset CASCADE;
 INSERT INTO asset_pricing1(ticket,market_traded,timestamp1,market_value,currency) values('REL','BSE','2023-11-08 09:23:15',69,'INR');
 
 --@block
-SELECT * from asset_pricing1;
+SELECT * from pmp2.asset_pricing1;
 
 
 --@block
-Create DATABASE pmp1;
+Create DATABASE pmp2;
 
 
 --@block
