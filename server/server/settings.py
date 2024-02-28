@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'portfolio',
 ]
 
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,7 +60,12 @@ MIDDLEWARE = [
 
 
 ROOT_URLCONF = 'server.urls'
-
+CORS_ORIGIN_WHITELIST = (
+'http://localhost:3000',  # for localhost (REACT Default)
+)
+CORS_ALLOW_HEADERS =[
+    "*"
+]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -81,6 +88,7 @@ CORS_ALLOWED_ORIGINS = ["http://localhost:*","https://localhost:*","https://*","
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
