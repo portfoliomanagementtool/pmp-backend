@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('assets', '__first__'),
+        # ('assets', '__first__'),
         ('asset_pricing', '0002_alter_asset_pricing_unique_together_and_more'),
     ]
 

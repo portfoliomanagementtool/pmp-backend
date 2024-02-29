@@ -24,7 +24,7 @@ SELECT * from asset_pricing1;
 
 
 --@block
-Create DATABASE pmp1;
+Create DATABASE pmp;
 
 
 --@block
@@ -70,3 +70,13 @@ drop table portfolio;
 
 --@block
 CREATE DATABASE questionaire
+
+
+--@block
+select * from django_migrations 
+
+--@block
+delete from django_migrations where id=7;
+
+--@block
+DROP DATABASE pmp1;
