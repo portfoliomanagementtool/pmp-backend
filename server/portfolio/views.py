@@ -4,6 +4,7 @@ from pmp_auth.decorators import auth_required
 from .models import TransactionItem,Watchlist,Portfolio
 import json
 from assets.models import Asset
+from asset_pricing.models import asset_pricing
 from .serializers import TransactionItemSerializer,PortfolioSerializer,WatchlistSerializer,WatchlistWithAssestsSerializer 
 from django.db import transaction
 # Create your views here.
@@ -87,6 +88,8 @@ def list_portfolio(request):
         for category in categories:
             categories[category]["value"]=round(categories[category]["value"],2)
             categories[category]["percentage"]=round(categories[category]["value"]/total_investment*100,2)
+
+        
         return JsonResponse(status=200,data={"message":"Portfolio items fetched successfully","assets":PortfolioSerializer(portfolio,many=True).data,"categories":categories})
     except Exception as e:
         print(e)
@@ -183,3 +186,45 @@ def delete_asset_from_watchlist(request,watchlist_id):
         return JsonResponse(status=400,data={"message":"Watchlist or Asset Not Found"})
 
 
+@auth_required
+def get_user_metrics(request):
+    try:
+        user=request.pmp_user
+        portfolio=Portfolio.objects.filter(user=user).filter(quantity__gt=0)
+        total_investment=0
+        metrics={
+            "Market_Value":0,
+            "Invested Value":0,
+            "Overall P/L":0
+        }
+
+        categories={
+
+        }
+        for item in portfolio:
+            if item.portfolio_asset.category not in categories:
+                categories[item.portfolio_asset.category]={"value":0}
+            categories[item.portfolio_asset.category]["value"]+=item.quantity*item.avg_buy_price
+            current_asset_pricing=asset_pricing.objects.filter(ticker=item.portfolio_asset.ticker)
+            if(current_asset_pricing.first()!=None):
+                metrics['Market_Value']+=current_asset_pricing.first().market_value*item.quantity
+            total_investment+=item.quantity*item.avg_buy_price
+
+        response_met=[]
+        for category in categories:
+            
+            categories[category]["value"]=round(categories[category]["value"],2)
+            categories[category]["percentage"]=round(categories[category]["value"]/total_investment*100,2)
+        metrics['Invested Value']=total_investment
+        metrics['Overall P/L']=metrics["Market_Value"]-metrics["Invested Value"]
+        x=[]
+        for i in metrics.keys():
+            t={}
+            t["Title"]=i
+            t["Amount"]=metrics[i]
+            x.append(t)
+        
+        return JsonResponse(status=200,data={"message":"Portfolio items fetched successfully","categories":categories,'metrics':x})
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while fetching portfolio items"})

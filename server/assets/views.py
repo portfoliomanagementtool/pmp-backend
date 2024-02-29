@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view,parser_classes
 from rest_framework.response import Response
-from .serializers import AssetSerializer
+from .serializers import AssetSerializer,AssetSerializerWithPricing
 from assets.models import Asset
 from logging import Logger
 from rest_framework import filters
@@ -15,7 +15,7 @@ class AssetListCreateView(generics.ListCreateAPIView):
     search_fields = ['ticker', 'category', 'name','description']
     filter_backends = (filters.SearchFilter,)
     queryset = Asset.objects.all()
-    serializer_class = AssetSerializer
+    serializer_class = AssetSerializerWithPricing
     def get_queryset(self):
         queryset = super().get_queryset()
 
@@ -37,7 +37,7 @@ class AssetListCreateView(generics.ListCreateAPIView):
 
 class AssetRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Asset.objects.all()
-    serializer_class = AssetSerializer
+    serializer_class = AssetSerializerWithPricing
     def get_queryset(self):
         queryset = super().get_queryset()
 
@@ -75,6 +75,24 @@ def insert_csv(request):
         serializer.save()
         return Response(status=status.HTTP_200_OK,data={"message":"Excel file received"})
     return Response(status=400,data={"message":"Invalid Excel file"})
+@api_view(['POST'])
+@parser_classes([FileUploadParser])
+def insert_csv_alphavantage(request):
+    f=request.FILES["file"]
+
+
+    import pandas
+    df=pandas.read_excel(f,sheet_name='Assets')
+    # print(df.head()['Ticker','Category','Name'])
+    df.rename(columns={'Ticker':'ticker','Category':'category','Name':'name'},inplace=True)
+    print(df.head())
+    df['description']=df['name']
+    serializer=AssetSerializer(data=df.to_dict('records'),many=True)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(status=status.HTTP_200_OK,data={"message":"Excel file received"})
+    return Response(status=400,data={"message":"Invalid Excel file"})
+
 
 # @api_view(['GET'])
 # def get_asset(request):

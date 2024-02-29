@@ -1,0 +1,365 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "PMP",
+    "dateExported": "2024-02-12T05:45:02.011Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "f31dc1e7-9c8e-42ff-866e-4a21ee816484",
+            "name": "User Auth",
+            "containerId": "",
+            "created": "2024-02-04T15:08:51.585Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Portfolio Management",
+            "containerId": "",
+            "created": "2024-02-04T15:09:16.414Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Watchlist",
+            "containerId": "",
+            "created": "2024-02-04T15:09:24.011Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "e0b9764c-0591-474a-9a64-211f69a2141a",
+            "name": "Transaction",
+            "containerId": "",
+            "created": "2024-02-04T15:09:51.772Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Asset_Pricing",
+            "containerId": "",
+            "created": "2024-02-04T15:10:07.177Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "0e8d375a-5c43-47a0-a49b-ed68e41c0c12",
+            "name": "Asset",
+            "containerId": "",
+            "created": "2024-02-05T04:50:51.349Z",
+            "sortNum": 60000
+        },
+        {
+            "_id": "e9a1b581-c973-4b19-938b-463ed55fc953",
+            "name": "Metrics",
+            "containerId": "",
+            "created": "2024-02-08T10:09:10.558Z",
+            "sortNum": 70000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "4685c157-32ed-4d9b-9454-c80aced5ac4d",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "f31dc1e7-9c8e-42ff-866e-4a21ee816484",
+            "name": "Create User",
+            "url": "http://127.0.0.1:8000/user/users/create",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-02-04T15:11:43.418Z",
+            "modified": "2024-02-09T16:48:18.025Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Tanmai1\",\n  \"email\":\"email12@gmail.com\",\n  \"phone\":1234567890\n  \n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "e3684788-2b8d-46cb-bc27-8b6514b66d0d",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Buy Asset",
+            "url": "http://127.0.0.1:8000/portfolio/buy",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-02-04T15:13:50.126Z",
+            "modified": "2024-02-09T16:50:58.947Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "2"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"REL\",\n  \"quantity\":100,\n  \"price\":100.25\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "3d124ac0-f4d8-4b5c-ac14-31197c8b667f",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Sell asset",
+            "url": "http://127.0.0.1:8000/portfolio/sell",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-02-04T15:16:46.425Z",
+            "modified": "2024-02-09T16:47:02.737Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"REL\",\n  \"quantity\":100,\n  \"price\":11.25\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "84d32183-8356-4015-8e26-4c1cc5d06dc3",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "e0b9764c-0591-474a-9a64-211f69a2141a",
+            "name": "All Transactions",
+            "url": "http://127.0.0.1:8000/portfolio/transactions",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-02-04T15:36:28.779Z",
+            "modified": "2024-02-09T16:50:45.571Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "2"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "3b943f36-718f-477c-866c-686fad307b6e",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Portfolio",
+            "url": "http://127.0.0.1:8000/portfolio/portfolios",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-02-04T15:40:23.897Z",
+            "modified": "2024-02-04T17:42:36.077Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "98535cb2-c6d5-4384-948f-1675590ea70a",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Create Watchlist",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/add",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-02-04T15:48:18.645Z",
+            "modified": "2024-02-09T16:47:42.832Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"tanmai\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9c6a306c-533c-4940-9698-41c9d1c88f84",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Get All Watchlist",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-02-04T15:50:46.183Z",
+            "modified": "2024-02-09T16:48:08.323Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "2"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "1061cd8f-09ce-4fdf-8e51-4418a8aecb83",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Add Asset to watchlist",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/3/add",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2024-02-04T15:56:10.638Z",
+            "modified": "2024-02-09T16:50:06.103Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"TANMAI\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "3e1eaa34-0e65-45ae-885f-e3e4d30db405",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Add Asset to watchlist Copy",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/2/delete",
+            "method": "DELETE",
+            "sortNum": 75000,
+            "created": "2024-02-04T16:17:51.531Z",
+            "modified": "2024-02-04T16:18:50.846Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "4"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"REL\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1e3d157c-3c5f-40d3-8fbe-ccbbc746760c",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Get All Asset in a WatchList",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/1",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2024-02-04T16:10:04.685Z",
+            "modified": "2024-02-04T17:53:05.199Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "e57f9489-4b65-449e-be53-408bab0f0210",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Asset_Pricing",
+            "url": "http://127.0.0.1:8000/asset_pricing/latest?ticker=REL",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2024-02-04T16:31:34.011Z",
+            "modified": "2024-02-05T06:07:00.981Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "ticker",
+                    "value": "REL",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "48c0fad8-4bbd-4b3a-a691-76ee694335d6",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Create Asset Pricing",
+            "url": "http://127.0.0.1:8000/asset_pricing/create",
+            "method": "POST",
+            "sortNum": 100000,
+            "created": "2024-02-04T16:32:29.377Z",
+            "modified": "2024-02-08T09:43:44.833Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"REL\",\n  \"market_value\":105,\n  \"timestamp1\":\"2024-01-30T20:24:00Z\",\n  \"currency\": \"Dollar\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "00e8dab6-882c-4a29-a15a-61cbaea3a26f",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "0e8d375a-5c43-47a0-a49b-ed68e41c0c12",
+            "name": "Create Asset",
+            "url": "http://127.0.0.1:8000/assets",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2024-02-05T04:50:57.582Z",
+            "modified": "2024-02-05T04:53:28.032Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"BTC\",\n  \"name\":\"Bitcoin\",\n  \"description\":\"Virtual Token\",\n  \"category\":\"crypto\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "9d75ce3d-b653-4d0c-b925-2356890fbc26",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "0e8d375a-5c43-47a0-a49b-ed68e41c0c12",
+            "name": "Get Assests",
+            "url": "http://127.0.0.1:8000/assets",
+            "method": "GET",
+            "sortNum": 120000,
+            "created": "2024-02-05T04:53:42.567Z",
+            "modified": "2024-02-05T04:54:06.553Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "b6b169cb-c38b-4566-a47f-fededc11ba46",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "e9a1b581-c973-4b19-938b-463ed55fc953",
+            "name": "Get metrics",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/getmetrics",
+            "method": "GET",
+            "sortNum": 130000,
+            "created": "2024-02-08T10:09:19.646Z",
+            "modified": "2024-02-08T10:09:54.697Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "tests": []
+        }
+    ]
+}

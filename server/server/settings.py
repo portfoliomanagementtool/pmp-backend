@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+        "corsheaders",
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'assets.apps.AssetsConfig',
@@ -47,12 +48,14 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'server.urls'
 
@@ -74,7 +77,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
+CORS_ALLOWED_ORIGINS = ["http://localhost:*","https://localhost:*","https://*","http://*"]
 
+
+CORS_ORIGIN_ALLOW_ALL = True
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
