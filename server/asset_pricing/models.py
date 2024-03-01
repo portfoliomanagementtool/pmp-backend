@@ -7,6 +7,13 @@ class asset_pricing(models.Model):
     close=models.FloatField(blank=True,null=True)
     high=models.FloatField(blank=True,null=True)
     low=models.FloatField(blank=True,null=True)
+    ft_week_high=models.FloatField(blank=True,null=True)
+    ft_week_low=models.FloatField(blank=True,null=True)
+    month_high=models.FloatField(blank=True,null=True)
+    month_low=models.FloatField(blank=True,null=True)
+    overall_high=models.FloatField(blank=True,null=True)
+    overall_low=models.FloatField(blank=True,null=True)
+    
     timestamp1 = models.DateTimeField(auto_now=False, auto_now_add=False)
     currency = models.CharField("Enter Currency", max_length=10)
 

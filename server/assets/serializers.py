@@ -2,8 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import Asset
 from rest_framework.serializers import SerializerMethodField,JSONField
 from asset_pricing.models import asset_pricing
-
-# from asset_pricing.serializers import BaseAssetPricing
+# from asset_pricing.serializers import AssetPricingSerializer
 class AssetSerializer(ModelSerializer):
     class Meta:
         model=Asset
@@ -24,6 +23,49 @@ class AssetSerializerWithPricing(ModelSerializer):
         model=Asset
         fields=['ticker','category','name','pricing']
 
+
+class BaseAssetPricing(ModelSerializer):
+    
+    class Meta:
+        model=asset_pricing
+        fields='__all__'
+    
+class AssetSerializerWithPricingForTableData(ModelSerializer):
+    def getPricingDetails(self,asset):
+        pricing=asset_pricing.objects.filter(ticker=asset.ticker).latest('timestamp1')
+        if(pricing==None):
+            return None
+        return BaseAssetPricing(pricing,many=False).data
+    
+    pricing=SerializerMethodField('getPricingDetails')
+
+    class Meta:
+        model=Asset
+        fields=['ticker','category','name','pricing']
+    
+    def to_representation(self, data):
+        data = super(AssetSerializerWithPricingForTableData, self).to_representation(data)
+        if(data['pricing']==None):
+            return data
+        data['highLow']={
+            'today':{
+                'high':data['pricing']['high'],
+                'low':data['pricing']['low'],
+            },
+            '52week':{
+                'high':data['pricing']['ft_week_high'],
+                'low':data['pricing']['ft_week_low'],
+            },
+            'overall':{
+                'high':data['pricing']['overall_high'],
+                'low':data['pricing']['overall_low']
+            }
+        }
+        data['market_value']=data['pricing']['market_value']
+        data.pop('pricing')
+
+        return data
+    
 
 class AssetSerializerWithPricingV2(ModelSerializer):
     def getPricingDetails(self,asset):

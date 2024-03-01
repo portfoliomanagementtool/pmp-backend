@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view,parser_classes
 from rest_framework.response import Response
-from .serializers import AssetSerializer,AssetSerializerWithPricing
+from .serializers import AssetSerializer,AssetSerializerWithPricing,AssetSerializerWithPricingForTableData
 from assets.models import Asset
 from logging import Logger
 from rest_framework import filters
 from rest_framework import status,generics
 from rest_framework.parsers import FileUploadParser,MultiPartParser
 from pmp_auth.decorators import auth_required
+from asset_pricing.models import asset_pricing
 log=Logger("Asset Log")
 # Create your views here.
 # @auth_required
@@ -15,7 +16,9 @@ class AssetListCreateView(generics.ListCreateAPIView):
     search_fields = ['ticker', 'category', 'name','description']
     filter_backends = (filters.SearchFilter,)
     queryset = Asset.objects.all()
-    serializer_class = AssetSerializerWithPricing
+    serializer_class = AssetSerializerWithPricingForTableData
+
+
     def get_queryset(self):
         queryset = super().get_queryset()
 
