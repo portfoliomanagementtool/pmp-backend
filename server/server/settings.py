@@ -95,7 +95,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pmp1', 
+        'NAME': 'pmp', 
         'USER': 'postgres',
         'PASSWORD': '2359361',
         'HOST': '127.0.0.1', 
