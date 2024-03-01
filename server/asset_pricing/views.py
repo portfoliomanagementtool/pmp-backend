@@ -6,7 +6,12 @@ from asset_pricing.models import asset_pricing
 from logging import Logger
 from rest_framework import filters
 from rest_framework import status,generics
+
+from datetime import timedelta,datetime
+from django.db.models import Max, Min
 from pmp_auth.decorators import auth_required
+
+from rest_framework.parsers import FileUploadParser,MultiPartParser
 log=Logger("asset_pricing Log")
 # Create your views here.
 # @auth_required
@@ -78,4 +83,58 @@ class Latest_Asset_PricingListCreateView(generics.ListCreateAPIView):
         return queryset
 
 
+@api_view(['POST'])
+@parser_classes([FileUploadParser])
+def insert_csv(request):
+    f=request.FILES["file"]
+
+
+    import pandas
+    df=pandas.read_csv(f)
+
+    ticker=request.GET.get('ticker')
+    df['market_value']=df['close']
+    df['timestamp1']=df['timestamp']
+    df['currency']="INR"
+    df['ticker']=ticker
+    # print(df.head(),ticker)
+    serializer=AssetPricingSerializer(data=df.to_dict('records'),many=True)
     
+    # df['description']=df['name']
+    # 
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        for ins in serializer.instance:
+            perform_create_1(ins)
+    
+    
+        
+        return Response(status=status.HTTP_200_OK,data={"message":"Excel file received"})
+    return Response(status=400,data={"message":"Invalid Excel file"})
+
+
+def perform_create_1(instance):
+    hl_52 = get_high_low(instance, 365)
+    hl_month = get_high_low(instance, 30)
+    hl_overall = get_high_low(instance, 20 * 365)
+    
+    instance.ft_week_high = hl_52['high']
+    instance.ft_week_low = hl_52['low']
+    instance.month_high = hl_month['high']
+    instance.month_low = hl_month['low']
+    instance.overall_high = hl_overall['high']
+    instance.overall_low = hl_overall['low']
+    instance.save()
+
+def get_high_low(instance, time):
+    from datetime import timedelta
+
+    high_low = asset_pricing.objects.filter(
+        ticker=instance.ticker,
+        timestamp1__gte=instance.timestamp1 - timedelta(days=time),
+        timestamp1__lte=instance.timestamp1
+    ).aggregate(
+        high=Max('high'),
+        low=Min('low')
+    )
+    return high_low
