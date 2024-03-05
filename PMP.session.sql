@@ -3,7 +3,7 @@
 SELECT * FROM pg_catalog.pg_tables where SCHEMANAME = 'public';
 
 --@block
-SELECT * from asset;
+SELECT * from asset_pricing1 where ticker_id like 'ETH';
 
 --@block
 INSERT INTO asset(ticker,category,name,description) values('REL','MULTI','Reliance','This is Reliance Industry ');
@@ -20,7 +20,7 @@ TRUNCATE TABLE asset CASCADE;
 INSERT INTO asset_pricing1(ticket,market_traded,timestamp1,market_value,currency) values('REL','BSE','2023-11-08 09:23:15',69,'INR');
 
 --@block
-SELECT * from pmp2.asset_pricing1;
+SELECT * from asset_pricing;
 
 
 --@block
