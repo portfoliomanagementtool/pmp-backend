@@ -193,9 +193,9 @@ def get_user_metrics(request):
         portfolio=Portfolio.objects.filter(user=user).filter(quantity__gt=0)
         total_investment=0
         metrics={
-            "Market_Value":0,
-            "Invested Value":0,
-            "Overall P/L":0
+            "market_value":0,
+            "invested_value":0,
+            "overall_pl":0
         }
 
         categories={
@@ -207,7 +207,7 @@ def get_user_metrics(request):
             categories[item.portfolio_asset.category]["value"]+=item.quantity*item.avg_buy_price
             current_asset_pricing=asset_pricing.objects.filter(ticker=item.portfolio_asset.ticker)
             if(current_asset_pricing.first()!=None):
-                metrics['Market_Value']+=current_asset_pricing.first().market_value*item.quantity
+                metrics['market_value']+=current_asset_pricing.first().market_value*item.quantity
             total_investment+=item.quantity*item.avg_buy_price
 
         response_met=[]
@@ -215,14 +215,18 @@ def get_user_metrics(request):
             
             categories[category]["value"]=round(categories[category]["value"],2)
             categories[category]["percentage"]=round(categories[category]["value"]/total_investment*100,2)
-        metrics['Invested Value']=total_investment
-        metrics['Overall P/L']=metrics["Market_Value"]-metrics["Invested Value"]
-        x=[]
+        metrics['invested_value']=total_investment
+        metrics['overall_pl']=metrics["market_value"]-metrics["invested_value"]
+        x={}
         for i in metrics.keys():
-            t={}
-            t["Title"]=i
-            t["Amount"]=metrics[i]
-            x.append(t)
+            x[i]={
+                "value":metrics[i],
+                "change":{
+                    "value":0,
+                    "percentage":0
+                },
+                "type":"green"
+            }
         
         return JsonResponse(status=200,data={"message":"Portfolio items fetched successfully","categories":categories,'metrics':x})
     except Exception as e:
