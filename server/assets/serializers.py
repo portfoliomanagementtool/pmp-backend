@@ -47,6 +47,10 @@ class AssetSerializerWithPricingForTableData(ModelSerializer):
         data = super(AssetSerializerWithPricingForTableData, self).to_representation(data)
         if(data['pricing']==None):
             return data
+        data['high']=data['pricing']['high']
+        data['open']=data['pricing']['open']
+        data['low']=data['pricing']['low']
+        data['close']=data['pricing']['close']
         data['highLow']={
             'today':{
                 'high':data['pricing']['high'],
