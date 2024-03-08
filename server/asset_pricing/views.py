@@ -6,6 +6,7 @@ from asset_pricing.models import asset_pricing
 from logging import Logger
 from rest_framework import filters
 from rest_framework import status,generics
+from django.http import JsonResponse
 
 from datetime import timedelta,datetime
 from django.db.models import Max, Min
@@ -40,7 +41,9 @@ class asset_pricingListCreateView(generics.ListCreateAPIView):
         hl_52=self.get_high_low(serializer,365)
         hl_month=self.get_high_low(serializer,30)
         hl_overall=self.get_high_low(serializer,20*365)
-        serializer.save(ft_week_high=hl_52['high'],ft_week_low=hl_52['low'],month_high=hl_month['high'],month_low=hl_month['low'],overall_high=hl_overall['high'],overall_low=hl_overall['low'])
+        day_change=serializer.validated_data["close"]-serializer.validated_data["open"]
+        day_change_percentage=day_change/serializer.validated_data["open"]*100
+        serializer.save(ft_week_high=hl_52['high'],ft_week_low=hl_52['low'],month_high=hl_month['high'],month_low=hl_month['low'],overall_high=hl_overall['high'],overall_low=hl_overall['low'],day_change=day_change,day_change_percentage=day_change_percentage)
         
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -57,6 +60,17 @@ class asset_pricingListCreateView(generics.ListCreateAPIView):
             queryset = queryset.filter(timestamp1=timestamp1)
 
         return queryset
+
+def get_top_gainers_losers(request):   
+    try:
+        count=request.GET.get('count',5)
+        timestamp=request.GET.get('timestamp',datetime.now().date())
+        top_gainers=asset_pricing.objects.filter(timestamp1=timestamp).order_by('-day_change_percentage')[:count]
+        top_losers=asset_pricing.objects.filter(timestamp1=timestamp).order_by('day_change_percentage')[:count]
+        return JsonResponse(status=200,data={"message":"Top gainers and losers","data":{"top_gainers":AssetPricingSerializer(top_gainers,many=True).data,"top_losers":AssetPricingSerializer(top_losers,many=True).data}})
+    except Exception as e:
+        log.error(e)
+        return JsonResponse(status=400,data={"message":"Error in getting top gainers"})
 
 
     
@@ -106,6 +120,9 @@ def insert_csv(request):
         serializer.save()
         for ins in serializer.instance:
             perform_create_1(ins)
+            ins.day_change=ins.close-ins.open
+            ins.day_change_percentage=ins.day_change/ins.open*100
+        
     
     
         
@@ -117,6 +134,7 @@ def perform_create_1(instance):
     hl_52 = get_high_low(instance, 365)
     hl_month = get_high_low(instance, 30)
     hl_overall = get_high_low(instance, 20 * 365)
+
     
     instance.ft_week_high = hl_52['high']
     instance.ft_week_low = hl_52['low']

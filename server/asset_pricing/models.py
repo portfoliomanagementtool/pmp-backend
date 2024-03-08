@@ -13,6 +13,10 @@ class asset_pricing(models.Model):
     month_low=models.FloatField(blank=True,null=True)
     overall_high=models.FloatField(blank=True,null=True)
     overall_low=models.FloatField(blank=True,null=True)
+
+    ##Day gain loss
+    day_change=models.FloatField(default=0)
+    day_change_percentage=models.FloatField(default=0)
     
     timestamp1 = models.DateTimeField(auto_now=False, auto_now_add=False)
     currency = models.CharField("Enter Currency", max_length=10)
