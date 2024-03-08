@@ -12,16 +12,23 @@ class AssetSerializer(ModelSerializer):
 class AssetSerializerWithPricing(ModelSerializer):
     def getPricingDetails(self,asset):
         pricing=asset_pricing.objects.filter(ticker=asset.ticker).latest('timestamp1')
+        
         if(pricing==None):
             return None
         return pricing.market_value
     
+    def getDayPL(self,asset):
+        pricing=asset_pricing.objects.filter(ticker=asset.ticker).latest('timestamp1')
+        
+        if(pricing==None):
+            return 0
+        return pricing.day_change
 
     pricing=SerializerMethodField('getPricingDetails')
-
+    daypl=SerializerMethodField('getDayPL')
     class Meta:
         model=Asset
-        fields=['ticker','category','name','pricing']
+        fields=['ticker','category','name','pricing','daypl']
 
 
 class BaseAssetPricing(ModelSerializer):

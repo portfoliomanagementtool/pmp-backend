@@ -24,6 +24,11 @@ class PortfolioSerializer(serializers.ModelSerializer):
         data['costBasis']=data['avgBasis']*data['quantity']
         data['profitLoss']=data['marketValue']-data['costBasis']
         data['percentPL']=data['profitLoss']/data['costBasis']*100
+        data['daypl']=data['portfolio_asset']['daypl']*data['quantity']
+        data.pop('avg_sell_price')
+        data.pop('created_at')
+        data.pop('updated_at')
+        data.pop('user')
         return data
     
 class PortfolioDailySerializer(serializers.ModelSerializer):

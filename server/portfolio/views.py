@@ -79,6 +79,10 @@ def list_portfolio(request):
     try:
         user=request.pmp_user
         portfolio=Portfolio.objects.filter(user=user).filter(quantity__gt=0)
+        if(request.GET.get('category')!=None):
+            portfolio=portfolio.filter(portfolio_asset__category=request.GET.get('category'))
+        if(request.GET.get('ticker')!=None):
+            portfolio=portfolio.filter(portfolio_asset__ticker=request.GET.get('ticker'))
         categories={}
         total_investment=0
         for item in portfolio:
