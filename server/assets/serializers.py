@@ -51,6 +51,8 @@ class AssetSerializerWithPricingForTableData(ModelSerializer):
         data['open']=data['pricing']['open']
         data['low']=data['pricing']['low']
         data['close']=data['pricing']['close']
+        data['day_change']=data['pricing']['day_change']
+        data['day_change_percentage']=data['pricing']['day_change_percentage']
         data['highLow']={
             'today':{
                 'high':data['pricing']['high'],

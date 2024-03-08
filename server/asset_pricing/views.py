@@ -131,14 +131,15 @@ class Latest_Asset_PricingListCreateView(generics.ListCreateAPIView):
         market_traded = self.request.query_params.get('market_traded', None)
         timestamp1 = self.request.query_params.get('timestamp', None)
 
+
         if ticket:
             queryset = queryset.filter(ticker=ticket)
         if market_traded:
             queryset = queryset.filter(market_traded=market_traded)
         if timestamp1:
             queryset = queryset.filter(timestamp1=timestamp1)
-
-        return queryset
+        # sort queryset by timestamp1 desc
+        return queryset.order_by('-timestamp1')
 
 
 @api_view(['POST'])
@@ -200,3 +201,24 @@ def get_high_low(instance, time):
         low=Min('low')
     )
     return high_low
+
+
+def recalculate_asset_pricings(request):
+    try:
+        ticker=request.GET.get('ticker')
+        if ticker==None:
+            return JsonResponse(status=400,data={"message":"Ticker not found"})
+        
+        all_asset_pricing=asset_pricing.objects.filter(ticker=ticker).order_by('timestamp1')
+        for i in range(1,len(all_asset_pricing)):
+            instance=all_asset_pricing[i]
+            pre_inst=all_asset_pricing[i-1]
+            perform_create_1(instance)
+            instance.day_change=pre_inst.close-instance.close
+            instance.day_change_percentage=instance.day_change/pre_inst.close*100
+            instance.save()
+        return JsonResponse(status=200,data={"message":"Recalculated asset pricing"})
+
+    except Exception as e:
+        log.error(e)
+        return JsonResponse(status=400,data={"message":"Error in getting top gainers"})
