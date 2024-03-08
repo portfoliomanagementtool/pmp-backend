@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from rest_framework.decorators import api_view,parser_classes
 from rest_framework.response import Response
-from .serializers import AssetPricingSerializer
+from .serializers import AssetPricingSerializer,GainLossSerializer
 from asset_pricing.models import asset_pricing
 from logging import Logger
 from rest_framework import filters
@@ -14,7 +14,49 @@ from pmp_auth.decorators import auth_required
 
 from rest_framework.parsers import FileUploadParser,MultiPartParser
 log=Logger("asset_pricing Log")
+dummy_data={
+  "message": "Top gainers and losers",
+  "data": {
+    "top_gainers": [
+      {
+        "ticker": "BTC1",
+        "category": "crypto",
+        "price": 3502771.7672,
+        "day_change_percentage": 10.0,
+        "day_change": 350270.0,
+        "timestamp": "2023-12-31T00:00:00Z"
+      },
+      {
+        "ticker": "ETH",
+        "category": "crypto",
+        "price": 189030.1108,
+        "day_change_percentage": 1.0,
+        "day_change": 1890.0,
+        "timestamp": "2023-12-31T00:00:00Z"
+      }
+    ],
+    "top_losers": [
+      {
+        "ticker": "IBM",
+        "category": "stocks",
+        "price": 1001,
+        "day_change_percentage": -2.7,
+        "day_change": -25,
+        "timestamp": "2023-12-31T00:00:00Z"
+      },
+      {
+        "ticker": "BTC",
+        "category": "crypto",
+        "price": 98,
+        "day_change_percentage": -2,
+        "day_change": -2,
+        "timestamp": "2023-12-31T00:00:00Z"
+      }
+    ]
+  }
+}
 # Create your views here.
+
 # @auth_required
 class asset_pricingListCreateView(generics.ListCreateAPIView):
     search_fields = ['market_traded', 'timestamp1']
@@ -67,11 +109,13 @@ def get_top_gainers_losers(request):
         timestamp=request.GET.get('timestamp',datetime.now().date())
         top_gainers=asset_pricing.objects.filter(timestamp1=timestamp).order_by('-day_change_percentage')[:count]
         top_losers=asset_pricing.objects.filter(timestamp1=timestamp).order_by('day_change_percentage')[:count]
-        return JsonResponse(status=200,data={"message":"Top gainers and losers","data":{"top_gainers":AssetPricingSerializer(top_gainers,many=True).data,"top_losers":AssetPricingSerializer(top_losers,many=True).data}})
+        return JsonResponse(status=200,data={"message":"Top gainers and losers","data":{"top_gainers":GainLossSerializer(top_gainers,many=True).data,"top_losers":GainLossSerializer(top_losers,many=True).data}})
     except Exception as e:
         log.error(e)
         return JsonResponse(status=400,data={"message":"Error in getting top gainers"})
 
+def get_dummy_top_gainers_losers(request):
+    return JsonResponse(status=200,data=dummy_data)
 
     
 class Latest_Asset_PricingListCreateView(generics.ListCreateAPIView):
