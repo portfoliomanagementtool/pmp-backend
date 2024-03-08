@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "PMP",
-    "dateExported": "2024-02-12T05:45:02.011Z",
+    "dateExported": "2024-03-08T11:31:23.928Z",
     "version": "1.1",
     "folders": [
         {
@@ -52,6 +52,13 @@
             "containerId": "",
             "created": "2024-02-08T10:09:10.558Z",
             "sortNum": 70000
+        },
+        {
+            "_id": "519b3779-6f7a-45f7-a054-37d1b6a2bc4d",
+            "name": "DailyPortfolio",
+            "containerId": "",
+            "created": "2024-03-08T08:11:56.329Z",
+            "sortNum": 80000
         }
     ],
     "requests": [
@@ -83,19 +90,20 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2024-02-04T15:13:50.126Z",
-            "modified": "2024-02-09T16:50:58.947Z",
+            "modified": "2024-03-08T11:09:43.364Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "2"
+                    "value": "1"
                 }
             ],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"ticker\":\"REL\",\n  \"quantity\":100,\n  \"price\":100.25\n}",
+                "raw": "{\n  \"ticker\":\"ETH\",\n  \"quantity\":2000,\n  \"price\":1000.25\n}",
                 "form": []
             },
+            "reqType": "post",
             "tests": []
         },
         {
@@ -107,7 +115,7 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2024-02-04T15:16:46.425Z",
-            "modified": "2024-02-09T16:47:02.737Z",
+            "modified": "2024-03-08T08:30:57.650Z",
             "headers": [
                 {
                     "name": "UserId",
@@ -117,9 +125,10 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"ticker\":\"REL\",\n  \"quantity\":100,\n  \"price\":11.25\n}",
+                "raw": "{\n  \"ticker\":\"BTC\",\n  \"quantity\":1,\n  \"price\":1100.25\n}",
                 "form": []
             },
+            "reqType": "post",
             "tests": []
         },
         {
@@ -146,18 +155,25 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
             "name": "Portfolio",
-            "url": "http://127.0.0.1:8000/portfolio/portfolios",
+            "url": "http://127.0.0.1:8000/portfolio/portfolios?ticker=BTC",
             "method": "GET",
             "sortNum": 50000,
             "created": "2024-02-04T15:40:23.897Z",
-            "modified": "2024-02-04T17:42:36.077Z",
+            "modified": "2024-03-08T11:17:14.345Z",
             "headers": [
                 {
                     "name": "UserId",
                     "value": "1"
                 }
             ],
-            "params": [],
+            "params": [
+                {
+                    "name": "ticker",
+                    "value": "BTC",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
             "tests": []
         },
         {
@@ -185,19 +201,39 @@
             "tests": []
         },
         {
+            "_id": "6dac7260-01a9-4f38-b644-bed1391e7a47",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Portfolio Copy",
+            "url": "http://127.0.0.1:8000/portfolio/get_monthly_investments",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2024-03-08T11:26:31.692Z",
+            "modified": "2024-03-08T11:27:47.240Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
             "_id": "9c6a306c-533c-4940-9698-41c9d1c88f84",
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
             "name": "Get All Watchlist",
-            "url": "http://127.0.0.1:8000/portfolio/watchlist",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/1",
             "method": "GET",
             "sortNum": 70000,
             "created": "2024-02-04T15:50:46.183Z",
-            "modified": "2024-02-09T16:48:08.323Z",
+            "modified": "2024-02-12T17:09:42.203Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "2"
+                    "value": "1"
                 }
             ],
             "params": [],
@@ -275,19 +311,62 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
             "name": "Asset_Pricing",
-            "url": "http://127.0.0.1:8000/asset_pricing/latest?ticker=REL",
+            "url": "http://127.0.0.1:8000/asset_pricing/latest?ticker=IBM",
             "method": "GET",
             "sortNum": 90000,
             "created": "2024-02-04T16:31:34.011Z",
-            "modified": "2024-02-05T06:07:00.981Z",
+            "modified": "2024-03-08T10:57:43.268Z",
             "headers": [],
             "params": [
                 {
                     "name": "ticker",
-                    "value": "REL",
+                    "value": "IBM",
                     "isPath": false
                 }
             ],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "3db64c70-56fd-48e3-96fe-21d97d8888cf",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Gainers Losers",
+            "url": "http://127.0.0.1:8000/asset_pricing/top_gainers_losers?timestamp=2023-12-31T00:00:00Z",
+            "method": "GET",
+            "sortNum": 95000,
+            "created": "2024-03-08T08:58:46.211Z",
+            "modified": "2024-03-08T09:31:26.458Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "timestamp",
+                    "value": "2023-12-31T00:00:00Z",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "7092a8cc-a683-4905-856e-b345dedb10b0",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Gainers Losers Copy",
+            "url": "http://127.0.0.1:8000/asset_pricing/recalculate_asset_pricings?ticker=BTC",
+            "method": "GET",
+            "sortNum": 97500,
+            "created": "2024-03-08T10:49:02.813Z",
+            "modified": "2024-03-08T11:09:23.486Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "ticker",
+                    "value": "BTC",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
             "tests": []
         },
         {
@@ -299,14 +378,15 @@
             "method": "POST",
             "sortNum": 100000,
             "created": "2024-02-04T16:32:29.377Z",
-            "modified": "2024-02-08T09:43:44.833Z",
+            "modified": "2024-03-08T09:00:44.854Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"ticker\":\"REL\",\n  \"market_value\":105,\n  \"timestamp1\":\"2024-01-30T20:24:00Z\",\n  \"currency\": \"Dollar\"\n}",
+                "raw": "{\n  \"ticker\":\"IBM\",\n  \"market_value\":1000,\n  \"high\":1030,\n  \"low\":90,\n  \"open\":110,\n  \"close\":90,\n  \"timestamp1\":\"2024-03-08T20:24:00Z\",\n  \"currency\": \"Rupee\"\n}",
                 "form": []
             },
+            "reqType": "post",
             "tests": []
         },
         {
@@ -318,14 +398,52 @@
             "method": "POST",
             "sortNum": 110000,
             "created": "2024-02-05T04:50:57.582Z",
-            "modified": "2024-02-05T04:53:28.032Z",
+            "modified": "2024-03-05T16:32:22.073Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"ticker\":\"BTC\",\n  \"name\":\"Bitcoin\",\n  \"description\":\"Virtual Token\",\n  \"category\":\"crypto\"\n}",
+                "raw": "{\n  \"ticker\":\"BTC1\",\n  \"name\":\"Bitcoin\",\n  \"description\":\"THe Bitcoint with real values\",\n  \"category\":\"crypto\"\n}",
                 "form": []
             },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "af0bcf30-5b8c-42b5-801d-90808548a5a7",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Create Asset Pricing Copy",
+            "url": "http://127.0.0.1:8000/asset_pricing/bulk_upload?ticker=ETH",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2024-03-01T15:41:00.831Z",
+            "modified": "2024-03-05T16:38:04.439Z",
+            "headers": [
+                {
+                    "name": "Content-Disposition",
+                    "value": "attachment;filename=daily_IBM.csv"
+                },
+                {
+                    "name": "ticker",
+                    "value": "IBM",
+                    "isDisabled": true
+                }
+            ],
+            "params": [
+                {
+                    "name": "ticker",
+                    "value": "ETH",
+                    "isPath": false
+                }
+            ],
+            "body": {
+                "type": "binary",
+                "raw": "",
+                "form": [],
+                "binary": "c:\\Users\\crazi\\Downloads\\currency_weekly_ETH_INR.csv"
+            },
+            "reqType": "post",
             "tests": []
         },
         {
@@ -333,13 +451,14 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "0e8d375a-5c43-47a0-a49b-ed68e41c0c12",
             "name": "Get Assests",
-            "url": "http://127.0.0.1:8000/assets",
+            "url": "http://localhost:8000/assets",
             "method": "GET",
             "sortNum": 120000,
             "created": "2024-02-05T04:53:42.567Z",
-            "modified": "2024-02-05T04:54:06.553Z",
+            "modified": "2024-03-08T10:38:37.747Z",
             "headers": [],
             "params": [],
+            "reqType": "get",
             "tests": []
         },
         {
@@ -347,11 +466,11 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "e9a1b581-c973-4b19-938b-463ed55fc953",
             "name": "Get metrics",
-            "url": "http://127.0.0.1:8000/portfolio/watchlist/getmetrics",
+            "url": "http://127.0.0.1:8000/portfolio/getmetrics",
             "method": "GET",
             "sortNum": 130000,
             "created": "2024-02-08T10:09:19.646Z",
-            "modified": "2024-02-08T10:09:54.697Z",
+            "modified": "2024-02-14T05:27:20.042Z",
             "headers": [
                 {
                     "name": "UserId",
@@ -359,6 +478,51 @@
                 }
             ],
             "params": [],
+            "tests": []
+        },
+        {
+            "_id": "bef0df6e-d15d-44a0-8e58-a676338dd72c",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "519b3779-6f7a-45f7-a054-37d1b6a2bc4d",
+            "name": "Create Daily Portfolio",
+            "url": "http://127.0.0.1:8000/portfolio/create_daily_portfolio",
+            "method": "POST",
+            "sortNum": 140000,
+            "created": "2024-03-08T08:12:29.346Z",
+            "modified": "2024-03-08T08:31:47.208Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\n  \"timestamp\":\"2024-03-11T20:24:00Z\"\n}",
+                "form": []
+            },
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "f6326638-0ac4-4b33-9e1b-cc36cb691e5e",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "519b3779-6f7a-45f7-a054-37d1b6a2bc4d",
+            "name": "Create Daily Portfolio Copy",
+            "url": "http://127.0.0.1:8000/portfolio/get_daily_portfolio",
+            "method": "GET",
+            "sortNum": 150000,
+            "created": "2024-03-08T08:26:30.222Z",
+            "modified": "2024-03-08T08:26:39.112Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "reqType": "post",
             "tests": []
         }
     ]
