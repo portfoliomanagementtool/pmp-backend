@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TransactionItem,Portfolio,Watchlist
+from .models import TransactionItem,Portfolio,Watchlist, PortfolioDailyOverview
 from assets.serializers import AssetSerializerWithPricingV2,AssetSerializer,AssetSerializerWithPricing
 from asset_pricing.serializers import AssetPricingSerializer
 from asset_pricing.models import asset_pricing
@@ -26,7 +26,64 @@ class PortfolioSerializer(serializers.ModelSerializer):
         data['percentPL']=data['profitLoss']/data['costBasis']*100
         return data
     
-
+class PortfolioDailySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = PortfolioDailyOverview
+        fields = '__all__'
+    def to_representation(self, data):
+        data = super(PortfolioDailySerializer, self).to_representation(data)
+        response={
+            "timestamp":data['timestamp'],
+        }
+        response['invested_value']={
+            "value":data['invested_value'],
+            "change":{
+                "value":data['change_invested_value'],
+                "percentage":data['percent_change_invested_value']
+            },
+            "type":"green" if data['change_invested_value']>0 else "red"
+            }
+        response['market_value']={
+            "value":data['market_value'],
+            "change":{
+                "value":data['change_market_value'],
+                "percentage":data['percent_change_market_value']
+            },
+            "type":"green" if data['change_market_value']>0 else "red"
+            }
+        response['overall_pl']={
+            "value":data['overall_pl'],
+            "change":{
+                "value":data['change_overall_pl'],
+                "percentage":data['percent_change_overall_pl']
+            },
+            "type":"green" if data['change_overall_pl']>0 else "red"
+            }
+        return response
+        
+        # x={}
+        # for i in metrics.keys():
+        #     x[i]={
+        #         "value":metrics[i],
+        #         "change":{
+        #             "value":0,
+        #             "percentage":0
+        #         },
+        #         "type":"green"
+        #     }
+        
+        return data
+    # def to_representation(self, data):
+    #     data = super(PortfolioSerializer, self).to_representation(data)
+    #     data['avgBasis']=data['avg_buy_price']
+    #     data['price']=data['portfolio_asset']['pricing']
+    #     data['marketValue']=data['price']*data['quantity']
+    #     data['costBasis']=data['avgBasis']*data['quantity']
+    #     data['profitLoss']=data['marketValue']-data['costBasis']
+    #     data['percentPL']=data['profitLoss']/data['costBasis']*100
+    #     return data
+    
 
 """
   user= models.ForeignKey(pmp_user, on_delete=models.CASCADE,related_name='portfolio_user_v1')

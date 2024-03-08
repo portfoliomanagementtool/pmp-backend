@@ -1,13 +1,14 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from pmp_auth.decorators import auth_required
-from .models import TransactionItem,Watchlist,Portfolio
+from .models import TransactionItem,Watchlist,Portfolio, PortfolioDailyOverview
 import json
 from assets.models import Asset
 from asset_pricing.models import asset_pricing
-from .serializers import TransactionItemSerializer,PortfolioSerializer,WatchlistSerializer,WatchlistWithAssestsSerializer 
+from .serializers import TransactionItemSerializer,PortfolioSerializer,WatchlistSerializer,WatchlistWithAssestsSerializer ,PortfolioDailySerializer
 from django.db import transaction
 # Create your views here.
+
 @auth_required
 def buy_asset(request):
     try:
@@ -192,11 +193,8 @@ def get_user_metrics(request):
         user=request.pmp_user
         portfolio=Portfolio.objects.filter(user=user).filter(quantity__gt=0)
         total_investment=0
-        metrics={
-            "market_value":0,
-            "invested_value":0,
-            "overall_pl":0
-        }
+        latest_portfolio=PortfolioDailyOverview.objects.filter(user=user).order_by('-timestamp').first()
+        
 
         categories={
 
@@ -205,9 +203,6 @@ def get_user_metrics(request):
             if item.portfolio_asset.category not in categories:
                 categories[item.portfolio_asset.category]={"value":0}
             categories[item.portfolio_asset.category]["value"]+=item.quantity*item.avg_buy_price
-            current_asset_pricing=asset_pricing.objects.filter(ticker=item.portfolio_asset.ticker)
-            if(current_asset_pricing.first()!=None):
-                metrics['market_value']+=current_asset_pricing.first().market_value*item.quantity
             total_investment+=item.quantity*item.avg_buy_price
 
         response_met=[]
@@ -215,20 +210,78 @@ def get_user_metrics(request):
             
             categories[category]["value"]=round(categories[category]["value"],2)
             categories[category]["percentage"]=round(categories[category]["value"]/total_investment*100,2)
-        metrics['invested_value']=total_investment
-        metrics['overall_pl']=metrics["market_value"]-metrics["invested_value"]
-        x={}
-        for i in metrics.keys():
-            x[i]={
-                "value":metrics[i],
-                "change":{
-                    "value":0,
-                    "percentage":0
-                },
-                "type":"green"
-            }
         
-        return JsonResponse(status=200,data={"message":"Portfolio items fetched successfully","categories":categories,'metrics':x})
+        
+        
+        return JsonResponse(status=200,data={"message":"Portfolio items fetched successfully","categories":categories,'metrics':PortfolioDailySerializer(latest_portfolio).data})
     except Exception as e:
         print(e)
         return JsonResponse(status=400,data={"message":"Error while fetching portfolio items"})
+    
+import datetime
+#This is used to create portfolio daily  and can be used with cron or similar schedulers
+def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now()):
+    try:
+        
+        portfolio=Portfolio.objects.filter(user=user_id).filter(quantity__gt=0)
+        total_investment=0
+        metrics={
+            "market_value":0,
+            "invested_value":0,
+            "overall_pl":0
+        }
+        
+        for item in portfolio:
+            current_asset_pricing=asset_pricing.objects.filter(ticker=item.portfolio_asset.ticker)
+            if(current_asset_pricing.first()!=None):
+                metrics['market_value']+=current_asset_pricing.first().market_value*item.quantity
+            total_investment+=item.quantity*item.avg_buy_price
+
+        response_met=[]
+        metrics['invested_value']=total_investment
+        metrics['overall_pl']=metrics["market_value"]-metrics["invested_value"]
+
+
+        with transaction.atomic():
+            last_portfolio=PortfolioDailyOverview.objects.filter(user=user_id).filter(timestamp__lt=timestamp).order_by('-timestamp').first()
+            if last_portfolio!=None:
+                metrics['change_invested_value']=metrics['invested_value']-last_portfolio.invested_value
+                metrics['change_market_value']=metrics['market_value']-last_portfolio.market_value
+                metrics['change_overall_pl']=metrics['overall_pl']-last_portfolio.overall_pl
+                metrics['percent_change_invested_value']=round(metrics['change_invested_value']/last_portfolio.invested_value*100,2)
+                metrics['percent_change_market_value']=round(metrics['change_market_value']/last_portfolio.market_value*100,2)
+                metrics['percent_change_overall_pl']=round(metrics['change_overall_pl']/last_portfolio.overall_pl*100,2)
+            PortfolioDailyOverview.objects.create(user=user_id,timestamp=timestamp,**metrics)
+            return JsonResponse(status=200,data={"message":"Daily Portfolio created successfully"})
+        return JsonResponse(status=400,data={"message":"Error while creating daily portfolio"})
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while creating daily portfolio"})
+    
+    
+@auth_required
+def create_portfolio_api(req):
+    try:
+        data={}
+        if(req.body!=b''):
+            data=json.loads(req.body.decode("utf-8"))
+        user_id=req.pmp_user
+        timestamp=datetime.datetime.now()
+        if data.get("timestamp")!=None:
+            timestamp=data["timestamp"]
+        return _create_daily_portfolio(user_id,timestamp)
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while creating daily portfolio1"})
+    
+
+@auth_required
+def get_portfolio_api(req):
+    try:
+        latest_portfolio=PortfolioDailyOverview.objects.filter(user=req.pmp_user).order_by('-timestamp').first()
+        if latest_portfolio==None:
+            return JsonResponse(status=400,data={"message":"No portfolio found"})
+        return JsonResponse(status=200,data={"message":"Fetched portfolio successfully","data":PortfolioDailySerializer(latest_portfolio).data})
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while creating daily portfolio1"})

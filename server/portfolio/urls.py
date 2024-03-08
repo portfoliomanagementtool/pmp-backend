@@ -15,5 +15,8 @@ urlpatterns = [
     path('watchlist/<int:watchlist_id>/delete', views.delete_asset_from_watchlist),
     path('getmetrics', views.get_user_metrics),
     
+    path('create_daily_portfolio', views.create_portfolio_api),
+    path('get_daily_portfolio', views.get_portfolio_api),
+    
 ]
 

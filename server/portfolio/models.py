@@ -37,3 +37,34 @@ class Portfolio(models.Model):
         indexes = [
             models.Index("user", "portfolio_asset", name="user_portfolio_idx")
         ]
+
+class PortfolioDailyOverview(models.Model):
+    import datetime
+    user= models.ForeignKey(pmp_user, on_delete=models.CASCADE,related_name='portfolio_daily_user')
+    timestamp=models.DateTimeField(default=datetime.datetime.now())
+    #values
+    invested_value=models.FloatField()
+    market_value=models.FloatField()
+    overall_pl=models.FloatField()
+
+    #wrt last day
+
+    change_invested_value=models.FloatField(default=0)
+    change_market_value=models.FloatField(default=0)
+    change_overall_pl=models.FloatField(default=0)
+
+    # percent change
+    percent_change_invested_value=models.FloatField(default=0)
+    percent_change_market_value=models.FloatField(default=0)
+    percent_change_overall_pl=models.FloatField(default=0)
+
+
+
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        db_table = "portfolios_daily" 
+        indexes = [
+            models.Index("user", "timestamp", name="user_portfoliodaily_idx")
+        ]
