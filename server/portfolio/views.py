@@ -66,7 +66,7 @@ def sell_asset(request):
 def list_transactions(request):
     try:
         user=request.pmp_user
-        transactions=TransactionItem.objects.filter(user=user)
+        transactions=TransactionItem.objects.filter(user=user).order_by('-created_at')
 
         return JsonResponse(status=200,data={"message":"Transactions fetched successfully","data":TransactionItemSerializer(transactions,many=True).data})
     except Exception as e:
