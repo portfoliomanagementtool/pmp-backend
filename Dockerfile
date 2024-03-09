@@ -1,3 +1,13 @@
-FROM postgres
+FROM python:3.11
 
-ADD pmp_dump.sql /docker-entrypoint-initdb.d
+WORKDIR /app
+
+COPY requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ./server .
+
+EXPOSE 8000
+
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
