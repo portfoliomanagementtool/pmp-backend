@@ -16,12 +16,18 @@ def auth_required(function):
             return JsonResponse(status=403,data={"message":"Token missing. Please add Token to header as Authorization : Bearer ..."})
         try:
             ## this is temporary solution as the frontend is not sending the user token 
-            user=PMPUser.objects.get(uuid=request.headers["UserId"])
+            user=PMPUser.objects.get(email=request.headers["UserId"])
         except KeyError:
             return JsonResponse(status=400,data={"message":"User missing. Please add a header as UserId"})
         except Exception as e:
-            print(e)
-            return JsonResponse(status=400,data={"message":"User missing. Please add a header as UserId"})
+            
+            try:
+                user=PMPUser.objects.create(email=request.headers["UserId"])
+            except Exception as e:
+                print(e)
+                return JsonResponse(status=400,data={"message":"Error in adding User"})
+            # print(e)
+            # return JsonResponse(status=400,data={"message":"User missing. Please add a header as UserId"})
         # token=request.headers["Authorization"]
         # user=request.GET["user"]
         request.pmp_user=user
