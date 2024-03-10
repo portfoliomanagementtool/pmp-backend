@@ -42,9 +42,9 @@ jobs:
 
       - name: Upload artifact for deployment jobs
         uses: actions/upload-artifact@v3
-        working-directory: ./server
         with:
           name: python-app
+          working-directory: ./server
           path: |
             release.zip
             !venv/
