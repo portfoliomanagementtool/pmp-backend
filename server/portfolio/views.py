@@ -319,3 +319,23 @@ def get_monthly_investments(req):
     except Exception as e:
         print(e)
         return JsonResponse(status=400,data={"message":"Error while creating daily portfolio1"})
+    
+
+@auth_required
+def get_daily_investments(req):
+    try:
+        invested_value={}
+        transactions=TransactionItem.objects.filter(user=req.pmp_user)
+        for transaction in transactions:
+            key=transaction.created_at.strftime("%d-%m-%Y")
+            if key not in invested_value:
+                invested_value[key]=0
+            if transaction.buy_price!=None:
+                invested_value[key]+=transaction.buy_price*transaction.quantity
+            if transaction.sell_price!=None:
+                invested_value[key]-=transaction.sell_price*transaction.quantity
+        return JsonResponse(status=200,data={"message":"Fetched monthly investments successfully","data":invested_value})
+
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while getting daily investments"})

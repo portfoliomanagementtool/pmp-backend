@@ -17,7 +17,8 @@ urlpatterns = [
     
     path('create_daily_portfolio', views.create_portfolio_api),
     path('get_daily_portfolio', views.get_portfolio_api),
-    path('get_monthly_investments',views.get_monthly_investments)
+    path('get_monthly_investments',views.get_monthly_investments),
+    path('get_daily_investments',views.get_daily_investments)
     
 ]
 

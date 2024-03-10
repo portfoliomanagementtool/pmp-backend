@@ -78,6 +78,7 @@ class asset_pricingListCreateView(generics.ListCreateAPIView):
             low=Min('low')     # Replace 'low_field_name' with the actual field name for low values
         )
         return high_low
+    
     def perform_create(self, serializer):
         serializer.save()
         hl_52=self.get_high_low(serializer,365)
