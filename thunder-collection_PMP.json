@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "PMP",
-    "dateExported": "2024-03-10T18:51:51.492Z",
+    "dateExported": "2024-03-10T20:17:25.258Z",
     "version": "1.1",
     "folders": [
         {
@@ -227,18 +227,19 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
             "name": "Get All Watchlist",
-            "url": "http://127.0.0.1:8000/portfolio/watchlist/1",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist",
             "method": "GET",
             "sortNum": 70000,
             "created": "2024-02-04T15:50:46.183Z",
-            "modified": "2024-02-12T17:09:42.203Z",
+            "modified": "2024-03-10T19:23:45.014Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "1"
+                    "value": "crazinessspeaks@gmail.com"
                 }
             ],
             "params": [],
+            "reqType": "get",
             "tests": []
         },
         {
@@ -473,13 +474,29 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "0e8d375a-5c43-47a0-a49b-ed68e41c0c12",
             "name": "Get Assests",
-            "url": "https://pmp-back.azurewebsites.net/assets",
+            "url": "http://localhost:800/assets?ticker=ETH&start=2024-02-10T15:55:02.262374Z&end=2024-02-10T15:55:02.262374Z",
             "method": "GET",
             "sortNum": 120000,
             "created": "2024-02-05T04:53:42.567Z",
-            "modified": "2024-03-10T14:55:56.424Z",
+            "modified": "2024-03-10T20:17:16.316Z",
             "headers": [],
-            "params": [],
+            "params": [
+                {
+                    "name": "ticker",
+                    "value": "ETH",
+                    "isPath": false
+                },
+                {
+                    "name": "start",
+                    "value": "2024-02-10T15:55:02.262374Z",
+                    "isPath": false
+                },
+                {
+                    "name": "end",
+                    "value": "2024-02-10T15:55:02.262374Z",
+                    "isPath": false
+                }
+            ],
             "reqType": "get",
             "tests": []
         },
