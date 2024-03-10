@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "PMP",
-    "dateExported": "2024-03-08T11:31:23.928Z",
+    "dateExported": "2024-03-10T18:11:54.869Z",
     "version": "1.1",
     "folders": [
         {
@@ -59,6 +59,13 @@
             "containerId": "",
             "created": "2024-03-08T08:11:56.329Z",
             "sortNum": 80000
+        },
+        {
+            "_id": "78332ce1-254f-4122-ad90-b034865ebb2c",
+            "name": "Notifications",
+            "containerId": "",
+            "created": "2024-03-10T15:45:20.301Z",
+            "sortNum": 90000
         }
     ],
     "requests": [
@@ -67,11 +74,11 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "f31dc1e7-9c8e-42ff-866e-4a21ee816484",
             "name": "Create User",
-            "url": "http://127.0.0.1:8000/user/users/create",
+            "url": "http://pmp-back.azurewebsites.net/user/users/create",
             "method": "POST",
             "sortNum": 10000,
             "created": "2024-02-04T15:11:43.418Z",
-            "modified": "2024-02-09T16:48:18.025Z",
+            "modified": "2024-03-10T13:10:16.855Z",
             "headers": [],
             "params": [],
             "body": {
@@ -79,6 +86,7 @@
                 "raw": "{\n  \"name\":\"Tanmai1\",\n  \"email\":\"email12@gmail.com\",\n  \"phone\":1234567890\n  \n}",
                 "form": []
             },
+            "reqType": "post",
             "tests": []
         },
         {
@@ -90,11 +98,11 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2024-02-04T15:13:50.126Z",
-            "modified": "2024-03-08T11:09:43.364Z",
+            "modified": "2024-03-10T18:09:32.274Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "1"
+                    "value": "email12@gmail.com"
                 }
             ],
             "params": [],
@@ -115,17 +123,17 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2024-02-04T15:16:46.425Z",
-            "modified": "2024-03-08T08:30:57.650Z",
+            "modified": "2024-03-10T15:54:59.806Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "1"
+                    "value": "crazinessspeaks@gmail.com"
                 }
             ],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"ticker\":\"BTC\",\n  \"quantity\":1,\n  \"price\":1100.25\n}",
+                "raw": "{\n  \"ticker\":\"ETH\",\n  \"quantity\":1,\n  \"price\":1100.25\n}",
                 "form": []
             },
             "reqType": "post",
@@ -155,24 +163,18 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
             "name": "Portfolio",
-            "url": "http://127.0.0.1:8000/portfolio/portfolios?ticker=BTC",
+            "url": "http://127.0.0.1:8000/portfolio/portfolios",
             "method": "GET",
             "sortNum": 50000,
             "created": "2024-02-04T15:40:23.897Z",
-            "modified": "2024-03-08T11:17:14.345Z",
+            "modified": "2024-03-10T11:50:11.461Z",
             "headers": [
                 {
-                    "name": "UserId",
-                    "value": "1"
+                    "name": "Userid",
+                    "value": "crazinessspeaks123456@gmail.com"
                 }
             ],
-            "params": [
-                {
-                    "name": "ticker",
-                    "value": "BTC",
-                    "isPath": false
-                }
-            ],
+            "params": [],
             "reqType": "get",
             "tests": []
         },
@@ -205,15 +207,15 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
             "name": "Portfolio Copy",
-            "url": "http://127.0.0.1:8000/portfolio/get_monthly_investments",
+            "url": "http://127.0.0.1:8000/portfolio/get_daily_investments",
             "method": "GET",
             "sortNum": 60000,
             "created": "2024-03-08T11:26:31.692Z",
-            "modified": "2024-03-08T11:27:47.240Z",
+            "modified": "2024-03-10T18:09:13.176Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "1"
+                    "value": "email12@gmail.com"
                 }
             ],
             "params": [],
@@ -261,6 +263,26 @@
                 "raw": "{\n  \"ticker\":\"TANMAI\"\n}",
                 "form": []
             },
+            "tests": []
+        },
+        {
+            "_id": "30677f77-2333-4f2e-9f9e-797ec796c553",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Get  Daily Investment",
+            "url": "http://127.0.0.1:8000/portfolio/get_daily_investments",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-03-10T18:11:05.471Z",
+            "modified": "2024-03-10T18:11:05.471Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "email12@gmail.com"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
             "tests": []
         },
         {
@@ -315,7 +337,7 @@
             "method": "GET",
             "sortNum": 90000,
             "created": "2024-02-04T16:31:34.011Z",
-            "modified": "2024-03-08T10:57:43.268Z",
+            "modified": "2024-03-09T15:27:38.597Z",
             "headers": [],
             "params": [
                 {
@@ -451,11 +473,11 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "0e8d375a-5c43-47a0-a49b-ed68e41c0c12",
             "name": "Get Assests",
-            "url": "http://localhost:8000/assets",
+            "url": "https://pmp-back.azurewebsites.net/assets",
             "method": "GET",
             "sortNum": 120000,
             "created": "2024-02-05T04:53:42.567Z",
-            "modified": "2024-03-08T10:38:37.747Z",
+            "modified": "2024-03-10T14:55:56.424Z",
             "headers": [],
             "params": [],
             "reqType": "get",
@@ -470,14 +492,15 @@
             "method": "GET",
             "sortNum": 130000,
             "created": "2024-02-08T10:09:19.646Z",
-            "modified": "2024-02-14T05:27:20.042Z",
+            "modified": "2024-03-10T11:35:31.360Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "1"
+                    "value": "crazinessspeaks10@gmail.com"
                 }
             ],
             "params": [],
+            "reqType": "get",
             "tests": []
         },
         {
@@ -523,6 +546,71 @@
             ],
             "params": [],
             "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "1b7aae94-978f-456e-9c43-4a1a9b7eac60",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "78332ce1-254f-4122-ad90-b034865ebb2c",
+            "name": "get_notifications",
+            "url": "http://127.0.0.1:8000/notifications/get_notifications",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2024-03-10T15:45:34.376Z",
+            "modified": "2024-03-10T15:47:40.552Z",
+            "headers": [
+                {
+                    "name": "Userid",
+                    "value": "crazinessspeaks@gmail.com"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "7b687d1b-22c6-4a77-a2d8-8f9b779ffe63",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "78332ce1-254f-4122-ad90-b034865ebb2c",
+            "name": "mark ad red",
+            "url": "http://127.0.0.1:8000/notifications/mark_as_read?id=1",
+            "method": "GET",
+            "sortNum": 170000,
+            "created": "2024-03-10T15:50:17.590Z",
+            "modified": "2024-03-10T15:58:25.805Z",
+            "headers": [
+                {
+                    "name": "Userid",
+                    "value": "crazinessspeaks@gmail.com"
+                }
+            ],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "c5a1b2e6-c1eb-4c8d-9213-3e11a9992fb1",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "78332ce1-254f-4122-ad90-b034865ebb2c",
+            "name": "mark ad red Copy",
+            "url": "http://127.0.0.1:8000/notifications/mark_as_read_all",
+            "method": "GET",
+            "sortNum": 180000,
+            "created": "2024-03-10T16:01:08.425Z",
+            "modified": "2024-03-10T16:01:29.450Z",
+            "headers": [
+                {
+                    "name": "Userid",
+                    "value": "crazinessspeaks@gmail.com"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
             "tests": []
         }
     ]
