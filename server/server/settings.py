@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'assets.apps.AssetsConfig',
+    'notifications.apps.NotificationsConfig',
     'asset_pricing',
     'rest_framework',
     'pmp_user',

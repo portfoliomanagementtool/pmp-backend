@@ -7,6 +7,7 @@ from assets.models import Asset
 from asset_pricing.models import asset_pricing
 from .serializers import TransactionItemSerializer,PortfolioSerializer,WatchlistSerializer,WatchlistWithAssestsSerializer ,PortfolioDailySerializer
 from django.db import transaction
+from notifications.views import create_notification
 # Create your views here.
 
 @auth_required
@@ -28,6 +29,7 @@ def buy_asset(request):
                 portfolio.quantity=total_quantity
                 portfolio.avg_buy_price=avg_buy_price
                 portfolio.save()
+            create_notification(user,"Asset Bought","You have bought "+str(data["quantity"])+" of "+asset.ticker+" at "+str(data["price"])+" per unit")
             return JsonResponse(status=200,data={"message":"Asset bought successfully"})
         
         return JsonResponse(status=400,data={"message":"Error while buying the Asset"})
@@ -54,6 +56,7 @@ def sell_asset(request):
                     raise Exception("Not enough quantity to sell")
                 portfolio.quantity=total_quantity
                 portfolio.save()
+            create_notification(user,"Asset Sold","You have sold "+str(data["quantity"])+" of "+asset.ticker+" at "+str(data["price"])+" per unit")
             return JsonResponse(status=200,data={"message":"Asset sold successfully"})
         
         return JsonResponse(status=400,data={"message":"Error while buying the Asset"})
@@ -229,7 +232,7 @@ import datetime
 #This is used to create portfolio daily  and can be used with cron or similar schedulers
 def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now(),res=True):
     try:
-        
+        create_notification(user_id,"Daily Portfolio","Latest daily portfolio created")        
         portfolio=Portfolio.objects.filter(user=user_id).filter(quantity__gt=0)
         total_investment=0
         metrics={
