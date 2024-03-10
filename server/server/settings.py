@@ -106,6 +106,7 @@ DATABASES = {
         'PASSWORD': env("TIMESCALEDB_PASSWORD"),
         'HOST': env('TIMESCALEDB_HOST'), 
         'PORT': env('TIMESCALEDB_PORT'),
+        'OPTIONS': {'sslmode': 'require'},
     }
 }
 
