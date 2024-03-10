@@ -92,15 +92,19 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+import os
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pmp', 
-        'USER': 'postgres',
-        'PASSWORD': '2359361',
-        'HOST': '127.0.0.1', 
-        'PORT': '5440',
+        'NAME': env('TIMESCALEDB_DATABASE'), 
+        'USER': env('TIMESCALEDB_USER'),
+        'PASSWORD': env("TIMESCALEDB_PASSWORD"),
+        'HOST': env('TIMESCALEDB_HOST'), 
+        'PORT': env('TIMESCALEDB_PORT'),
     }
 }
 
