@@ -61,6 +61,14 @@ class PortfolioDailySerializer(serializers.ModelSerializer):
         response['overall_pl']={
             "value":data['overall_pl'],
             "change":{
+                "value":data['overall_pl'],
+                "percentage":data['overall_pl']/data['invested_value']*100 if data['invested_value']>0 else 0
+            },
+            "type":"green" if data['overall_pl']>0 else "red"
+            }
+        response['day_pl']={
+            "value":data['change_overall_pl'],
+            "change":{
                 "value":data['change_overall_pl'],
                 "percentage":data['percent_change_overall_pl']
             },

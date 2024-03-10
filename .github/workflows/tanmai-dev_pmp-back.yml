@@ -7,7 +7,7 @@ name: Build and deploy Python app to Azure Web App - PMP-BACK
 on:
   push:
     branches:
-      - tanmai-dev
+      - tanmai-dev-stable
   workflow_dispatch:
 
 jobs:
