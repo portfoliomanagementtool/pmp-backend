@@ -3,6 +3,8 @@ from django.http.response import JsonResponse
 from utils.auth import verify_token as jwt_verify
 from django.views.decorators.csrf import csrf_exempt
 from pmp_user.models import pmp_user as PMPUser
+
+# from portfolio.views import _create_daily_portfolio
 @csrf_exempt
 def auth_required(function):
     @csrf_exempt

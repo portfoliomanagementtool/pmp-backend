@@ -198,6 +198,9 @@ def get_user_metrics(request):
         portfolio=Portfolio.objects.filter(user=user).filter(quantity__gt=0)
         total_investment=0
         latest_portfolio=PortfolioDailyOverview.objects.filter(user=user).order_by('-timestamp').first()
+        if(latest_portfolio==None): 
+            _create_daily_portfolio(user,datetime.datetime.now(),False)
+            latest_portfolio=PortfolioDailyOverview.objects.filter(user=user).order_by('-timestamp').first()
         
 
         categories={
@@ -224,7 +227,7 @@ def get_user_metrics(request):
     
 import datetime
 #This is used to create portfolio daily  and can be used with cron or similar schedulers
-def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now()):
+def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now(),res=True):
     try:
         
         portfolio=Portfolio.objects.filter(user=user_id).filter(quantity__gt=0)
@@ -255,7 +258,10 @@ def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now()):
                 metrics['percent_change_invested_value']=round(metrics['change_invested_value']/last_portfolio.invested_value*100,2)
                 metrics['percent_change_market_value']=round(metrics['change_market_value']/last_portfolio.market_value*100,2)
                 metrics['percent_change_overall_pl']=round(metrics['change_overall_pl']/last_portfolio.overall_pl*100,2)
-            PortfolioDailyOverview.objects.create(user=user_id,timestamp=timestamp,**metrics)
+            portf=PortfolioDailyOverview.objects.create(user=user_id,timestamp=timestamp,**metrics)
+            if res:
+                return portf
+
             return JsonResponse(status=200,data={"message":"Daily Portfolio created successfully"})
         return JsonResponse(status=400,data={"message":"Error while creating daily portfolio"})
     except Exception as e:

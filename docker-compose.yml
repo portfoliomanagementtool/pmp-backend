@@ -35,6 +35,14 @@ services:
       POSTGRES_PASSWORD: 011000101
     ports:
       - '5440:5432'
+
+  # pmp:
+  #   image: pmp
+  #   restart: always
+  #   ports:
+  #     - '8000:8000'
+  #   extra_hosts:
+  #     - "host.docker.internal:host-gateway"
     # volumes:
       #db:/var/lib/postgresql/data
       # - ./pmp_dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
