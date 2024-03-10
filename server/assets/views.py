@@ -18,6 +18,44 @@ class AssetListCreateView(generics.ListCreateAPIView):
     queryset = Asset.objects.all()
     serializer_class = AssetSerializerWithPricingForTableData
 
+    def get(self, request):
+        print("custom list")
+        queryset = self.get_queryset()
+        response = super().list(request)
+        serializer = self.get_serializer(queryset, many=True)
+        # ticker=request.query_params.get('ticker',None)
+        start=request.query_params.get('start',None)
+        end=request.query_params.get('end',None)
+        if start and end:
+            try:
+                for asset_data in serializer.data:
+                    ticker = asset_data.get('ticker')
+                    if ticker:
+                        # Fetch pricing data based on ticker
+                        before_start = asset_pricing.objects.filter(ticker=ticker, timestamp1__lte=start).latest('timestamp1')
+                        before_end = asset_pricing.objects.filter(ticker=ticker, timestamp1__lte=end).latest('timestamp1')
+                        # Calculate day_change and day_change_percentage
+                        print("Before start:", before_start)
+                        print("Before end:", before_end)
+                        
+                        # Calculate day_change and day_change_percentage
+                        day_change = before_end.close - before_start.close
+                        day_change_percentage = (before_end.close - before_start.close) / before_start.close * 100
+                        
+                        print("Day change:", day_change)
+                        print("Day change percentage:", day_change_percentage)
+                        # Add day_change and day_change_percentage to asset_data
+                        modified_asset_data = asset_data.copy()
+            
+                        # Add change and change_percentage to modified_asset_data
+                        modified_asset_data['day_change'] = day_change
+                        modified_asset_data['day_change_percentage'] = day_change_percentage
+                        return Response([modified_asset_data])
+            except Exception as e:
+                print(e)
+            # return Response([serializer.data])
+        return response
+
 
     def get_queryset(self):
         queryset = super().get_queryset()
