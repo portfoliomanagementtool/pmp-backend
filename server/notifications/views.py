@@ -12,10 +12,11 @@ def get_notifications(request):
         notifications=Notification.objects.filter(user=request.pmp_user).order_by('created_at')
         if request.GET.get('unread')=='true':
             notifications=notifications.filter(is_read=False)
+        # counted_notifications=None
         #latest n notifications
         if request.GET.get('count')!=None:
             #get latest n notifications
-            notifications=notifications[:int(request.GET.get('count'))]
+            counted_notifications=notifications[:int(request.GET.get('count'))]
 
         #map with date
         mapeed_data={}
@@ -29,7 +30,7 @@ def get_notifications(request):
             else:
                 mapeed_data[date]=[NotificationSerializer(notification).data]
 
-        return JsonResponse({"data":mapeed_data,"count":count},safe=False)
+        return JsonResponse({"data":mapeed_data if request.GET.get('count')==None else NotificationSerializer(counted_notifications,many=True).data,"count":count},safe=False)
     except Exception as e:
         print(e.__traceback__)
         return JsonResponse(status=400,data={"error":str(e)})
