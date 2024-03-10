@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "PMP",
-    "dateExported": "2024-03-10T18:11:54.869Z",
+    "dateExported": "2024-03-10T18:51:51.492Z",
     "version": "1.1",
     "folders": [
         {
@@ -565,6 +565,37 @@
                 }
             ],
             "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "e9cab365-bf65-472f-82b2-e711b6c8e84c",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "78332ce1-254f-4122-ad90-b034865ebb2c",
+            "name": "get_notifications Copy",
+            "url": "http://127.0.0.1:8000/notifications/get_notifications?unread=true&count=1",
+            "method": "GET",
+            "sortNum": 165000,
+            "created": "2024-03-10T18:40:17.981Z",
+            "modified": "2024-03-10T18:51:41.923Z",
+            "headers": [
+                {
+                    "name": "Userid",
+                    "value": "email12@gmail.com"
+                }
+            ],
+            "params": [
+                {
+                    "name": "unread",
+                    "value": "true",
+                    "isPath": false
+                },
+                {
+                    "name": "count",
+                    "value": "1",
+                    "isPath": false
+                }
+            ],
             "reqType": "get",
             "tests": []
         },
