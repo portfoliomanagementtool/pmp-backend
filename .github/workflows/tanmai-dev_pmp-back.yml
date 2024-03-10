@@ -44,10 +44,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: python-app
-          working-directory: ./server
           path: |
-            release.zip
-            !venv/
+            server/release.zip
+            !server/venv/
 
   deploy:
     runs-on: ubuntu-latest
