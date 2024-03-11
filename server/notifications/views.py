@@ -9,11 +9,30 @@ from django.http import JsonResponse
 @auth_required
 def get_notifications(request):
     try:
-        notifications=Notification.objects.filter(user=request.pmp_user)
-        serializer=NotificationSerializer(notifications,many=True)
-        return JsonResponse({"data":serializer.data},safe=False)
-    except Exception as e:
+        notifications=Notification.objects.filter(user=request.pmp_user).order_by('created_at')
+        if request.GET.get('unread')=='true':
+            notifications=notifications.filter(is_read=False)
+        # counted_notifications=None
+        #latest n notifications
+        if request.GET.get('count')!=None:
+            #get latest n notifications
+            counted_notifications=notifications[:int(request.GET.get('count'))]
 
+        #map with date
+        mapeed_data={}
+        count=0
+        for notification in notifications:
+            date=notification.created_at.date().strftime("%Y-%m-%d")
+            if notification.is_read==False:
+                count+=1
+            if date in mapeed_data:
+                mapeed_data[date].append(NotificationSerializer(notification).data)
+            else:
+                mapeed_data[date]=[NotificationSerializer(notification).data]
+
+        return JsonResponse({"data":mapeed_data if request.GET.get('count')==None else NotificationSerializer(counted_notifications,many=True).data,"count":count},safe=False)
+    except Exception as e:
+        print(e.__traceback__)
         return JsonResponse(status=400,data={"error":str(e)})
     
 @auth_required

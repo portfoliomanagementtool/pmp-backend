@@ -29,7 +29,8 @@ def buy_asset(request):
                 portfolio.quantity=total_quantity
                 portfolio.avg_buy_price=avg_buy_price
                 portfolio.save()
-            create_notification(user,"Asset Bought","You have bought "+str(data["quantity"])+" of "+asset.ticker+" at "+str(data["price"])+" per unit")
+            _create_daily_portfolio(user,datetime.datetime.now(),False)
+            create_notification(user,"BUY","You have bought "+str(data["quantity"])+" of "+asset.ticker+" at "+str(data["price"])+" per unit")
             return JsonResponse(status=200,data={"message":"Asset bought successfully"})
         
         return JsonResponse(status=400,data={"message":"Error while buying the Asset"})
@@ -56,7 +57,9 @@ def sell_asset(request):
                     raise Exception("Not enough quantity to sell")
                 portfolio.quantity=total_quantity
                 portfolio.save()
-            create_notification(user,"Asset Sold","You have sold "+str(data["quantity"])+" of "+asset.ticker+" at "+str(data["price"])+" per unit")
+            
+            _create_daily_portfolio(user,datetime.datetime.now(),False)
+            create_notification(user,"SELL","You have sold "+str(data["quantity"])+" of "+asset.ticker+" at "+str(data["price"])+" per unit")
             return JsonResponse(status=200,data={"message":"Asset sold successfully"})
         
         return JsonResponse(status=400,data={"message":"Error while buying the Asset"})
@@ -106,6 +109,9 @@ def list_portfolio(request):
 def list_watchlists(request):
     try:
         user=request.pmp_user
+        watchlists=Watchlist.objects.filter(pmp_user=user)
+        if watchlists is None:
+            Watchlist.objects.create(pmp_user=user,name="Default")
         watchlists=Watchlist.objects.filter(pmp_user=user)
         return JsonResponse(status=200,data={"message":"Fetched a Watchlist Successfully","data":WatchlistSerializer(watchlists,many=True).data})
     
@@ -202,7 +208,8 @@ def get_user_metrics(request):
         total_investment=0
         latest_portfolio=PortfolioDailyOverview.objects.filter(user=user).order_by('-timestamp').first()
         if(latest_portfolio==None): 
-            _create_daily_portfolio(user,datetime.datetime.now(),False)
+            tm=datetime.datetime.now()-datetime.timedelta(days=1)
+            _create_daily_portfolio(user,tm,False)
             latest_portfolio=PortfolioDailyOverview.objects.filter(user=user).order_by('-timestamp').first()
         
 
@@ -232,7 +239,7 @@ import datetime
 #This is used to create portfolio daily  and can be used with cron or similar schedulers
 def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now(),res=True):
     try:
-        create_notification(user_id,"Daily Portfolio","Latest daily portfolio created")        
+        create_notification(user_id,"UPDATE","Latest daily portfolio created")        
         portfolio=Portfolio.objects.filter(user=user_id).filter(quantity__gt=0)
         total_investment=0
         metrics={
@@ -253,14 +260,24 @@ def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now(),res=True):
 
 
         with transaction.atomic():
-            last_portfolio=PortfolioDailyOverview.objects.filter(user=user_id).filter(timestamp__lt=timestamp).order_by('-timestamp').first()
+            last_portfolio=PortfolioDailyOverview.objects.filter(user=user_id).filter(timestamp__lt=timestamp.date()).order_by('-timestamp').first()
             if last_portfolio!=None:
                 metrics['change_invested_value']=metrics['invested_value']-last_portfolio.invested_value
                 metrics['change_market_value']=metrics['market_value']-last_portfolio.market_value
                 metrics['change_overall_pl']=metrics['overall_pl']-last_portfolio.overall_pl
-                metrics['percent_change_invested_value']=round(metrics['change_invested_value']/last_portfolio.invested_value*100,2)
-                metrics['percent_change_market_value']=round(metrics['change_market_value']/last_portfolio.market_value*100,2)
-                metrics['percent_change_overall_pl']=round(metrics['change_overall_pl']/last_portfolio.overall_pl*100,2)
+                if last_portfolio.invested_value==0:
+                    metrics['percent_change_invested_value']=100 if metrics['invested_value']>0 else 0
+                else:
+                    metrics['percent_change_invested_value']=round(metrics['change_invested_value']/last_portfolio.invested_value*100,2)
+                if last_portfolio.market_value==0:
+                    metrics['percent_change_market_value']=100 if metrics['market_value']>0 else 0
+                else:
+                    metrics['percent_change_market_value']=round(metrics['change_market_value']/last_portfolio.market_value*100,2)
+                if last_portfolio.overall_pl==0:
+                    metrics['percent_change_overall_pl']=100 if metrics['overall_pl']>0 else 0
+                else:
+                    metrics['percent_change_overall_pl']=round(metrics['change_overall_pl']/last_portfolio.overall_pl*100,2)
+            
             portf=PortfolioDailyOverview.objects.create(user=user_id,timestamp=timestamp,**metrics)
             if res:
                 return portf

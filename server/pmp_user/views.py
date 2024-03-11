@@ -94,3 +94,7 @@ class UserRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
             queryset = queryset.filter(phone=phone)
 
         return queryset
+    
+def delete_all_users(request):
+    pmp_user.objects.all().delete()
+    return JsonResponse({"message":"All users deleted"},status=200)

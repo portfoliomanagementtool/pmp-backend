@@ -87,20 +87,29 @@ class asset_pricingListCreateView(generics.ListCreateAPIView):
         day_change=serializer.validated_data["close"]-serializer.validated_data["open"]
         day_change_percentage=day_change/serializer.validated_data["open"]*100
         serializer.save(ft_week_high=hl_52['high'],ft_week_low=hl_52['low'],month_high=hl_month['high'],month_low=hl_month['low'],overall_high=hl_overall['high'],overall_low=hl_overall['low'],day_change=day_change,day_change_percentage=day_change_percentage)
+    
+    # def list(self,request):
+    #     queryset = self.get_queryset()
+    #     start
         
+        serializer = AssetPricingSerializer(queryset, many=True)
+        return Response(serializer.data)
     def get_queryset(self):
         queryset = super().get_queryset()
 
         ticket = self.request.query_params.get('ticker', None)
         market_traded = self.request.query_params.get('market_traded', None)
         timestamp1 = self.request.query_params.get('timestamp', None)
-
+        queryset.order_by('-timestamp1')
         if ticket:
             queryset = queryset.filter(ticker=ticket)
         if market_traded:
             queryset = queryset.filter(market_traded=market_traded)
         if timestamp1:
             queryset = queryset.filter(timestamp1=timestamp1)
+        
+
+
 
         return queryset
 
