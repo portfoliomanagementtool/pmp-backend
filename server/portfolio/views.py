@@ -239,7 +239,7 @@ import datetime
 #This is used to create portfolio daily  and can be used with cron or similar schedulers
 def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now(),res=True):
     try:
-        create_notification(user_id,"UPDATE","Latest daily portfolio created")        
+        # create_notification(user_id,"UPDATE","Latest daily portfolio created")        
         portfolio=Portfolio.objects.filter(user=user_id).filter(quantity__gt=0)
         total_investment=0
         metrics={
