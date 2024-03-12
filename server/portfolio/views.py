@@ -329,8 +329,6 @@ def get_monthly_investments(req):
                 invested_value[key]=0
             if transaction.buy_price!=None:
                 invested_value[key]+=transaction.buy_price*transaction.quantity
-            if transaction.sell_price!=None:
-                invested_value[key]-=transaction.sell_price*transaction.quantity
         return JsonResponse(status=200,data={"message":"Fetched monthly investments successfully","data":invested_value})
 
     except Exception as e:
@@ -349,8 +347,6 @@ def get_daily_investments(req):
                 invested_value[key]=0
             if transaction.buy_price!=None:
                 invested_value[key]+=transaction.buy_price*transaction.quantity
-            if transaction.sell_price!=None:
-                invested_value[key]-=transaction.sell_price*transaction.quantity
         return JsonResponse(status=200,data={"message":"Fetched monthly investments successfully","data":invested_value})
 
     except Exception as e:
