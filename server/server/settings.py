@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-9ao_83n2t@5)2-smu7-fi2t#2wcmg9*&k5e=rn(y-4vp-z_ryi'
+SECRET_KEY = 'django-secure-9ao_83n2t@5)2-smu7-fi2t#2wcmg9*&k5e=rn(y-4vp-z_ryi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -35,15 +35,23 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    "corsheaders",
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'assets',
-    'rest_framework'
+    'assets.apps.AssetsConfig',
+    'notifications.apps.NotificationsConfig',
+    'asset_pricing',
+    'rest_framework',
+    'pmp_user',
+    'portfolio',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -51,12 +59,20 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'server.urls'
 
+ROOT_URLCONF = 'server.urls'
+CORS_ORIGIN_WHITELIST = (
+'*',  # for localhost (REACT Default)
+
+)
+CORS_ALLOW_HEADERS =[
+    "*"
+]
+import os
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,18 +87,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
+CORS_ALLOWED_ORIGINS = ["http://localhost:*","https://localhost:*","https://*","http://*"]
+
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
+import os
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'pmp', 
-        'USER': 'postgres',
-        'PASSWORD': '2359361',
-        'HOST': '127.0.0.1', 
-        'PORT': '5440',
+        'NAME': env('TIMESCALEDB_DATABASE'), 
+        'USER': env('TIMESCALEDB_USER'),
+        'PASSWORD': env("TIMESCALEDB_PASSWORD"),
+        'HOST': env('TIMESCALEDB_HOST'), 
+        'PORT': env('TIMESCALEDB_PORT'),
+        'OPTIONS': {'sslmode': 'require','options': 'endpoint=ep-icy-haze-a1psuze6'},
     }
 }
 

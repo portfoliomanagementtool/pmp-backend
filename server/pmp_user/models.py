@@ -1,10 +1,11 @@
 from django.db import models
+import uuid
 
-# Create your models here.
-class UserModel(models.Model):
+class pmp_user(models.Model):
+    uuid = models.AutoField(primary_key=True)
+    name = models.CharField("Enter Name",null=True)
+    email = models.EmailField("Enter Email",null=False)
+    phone = models.BigIntegerField("Enter Phone Number",null=True)
+
     class Meta:
-        db_table="users"
-    uuid=models.TextField(primary_key=True)
-    name=models.TextField()
-    email=models.TextField()
-    phone=models.BigIntegerField()
+        db_table = "pmp_users"

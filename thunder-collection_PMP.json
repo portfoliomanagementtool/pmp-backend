@@ -1,0 +1,665 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "PMP",
+    "dateExported": "2024-03-10T20:17:25.258Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "f31dc1e7-9c8e-42ff-866e-4a21ee816484",
+            "name": "User Auth",
+            "containerId": "",
+            "created": "2024-02-04T15:08:51.585Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Portfolio Management",
+            "containerId": "",
+            "created": "2024-02-04T15:09:16.414Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Watchlist",
+            "containerId": "",
+            "created": "2024-02-04T15:09:24.011Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "e0b9764c-0591-474a-9a64-211f69a2141a",
+            "name": "Transaction",
+            "containerId": "",
+            "created": "2024-02-04T15:09:51.772Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Asset_Pricing",
+            "containerId": "",
+            "created": "2024-02-04T15:10:07.177Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "0e8d375a-5c43-47a0-a49b-ed68e41c0c12",
+            "name": "Asset",
+            "containerId": "",
+            "created": "2024-02-05T04:50:51.349Z",
+            "sortNum": 60000
+        },
+        {
+            "_id": "e9a1b581-c973-4b19-938b-463ed55fc953",
+            "name": "Metrics",
+            "containerId": "",
+            "created": "2024-02-08T10:09:10.558Z",
+            "sortNum": 70000
+        },
+        {
+            "_id": "519b3779-6f7a-45f7-a054-37d1b6a2bc4d",
+            "name": "DailyPortfolio",
+            "containerId": "",
+            "created": "2024-03-08T08:11:56.329Z",
+            "sortNum": 80000
+        },
+        {
+            "_id": "78332ce1-254f-4122-ad90-b034865ebb2c",
+            "name": "Notifications",
+            "containerId": "",
+            "created": "2024-03-10T15:45:20.301Z",
+            "sortNum": 90000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "4685c157-32ed-4d9b-9454-c80aced5ac4d",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "f31dc1e7-9c8e-42ff-866e-4a21ee816484",
+            "name": "Create User",
+            "url": "http://pmp-back.azurewebsites.net/user/users/create",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-02-04T15:11:43.418Z",
+            "modified": "2024-03-10T13:10:16.855Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"Tanmai1\",\n  \"email\":\"email12@gmail.com\",\n  \"phone\":1234567890\n  \n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "e3684788-2b8d-46cb-bc27-8b6514b66d0d",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Buy Asset",
+            "url": "http://127.0.0.1:8000/portfolio/buy",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-02-04T15:13:50.126Z",
+            "modified": "2024-03-10T18:09:32.274Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "email12@gmail.com"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"ETH\",\n  \"quantity\":2000,\n  \"price\":1000.25\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "3d124ac0-f4d8-4b5c-ac14-31197c8b667f",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Sell asset",
+            "url": "http://127.0.0.1:8000/portfolio/sell",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-02-04T15:16:46.425Z",
+            "modified": "2024-03-10T15:54:59.806Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "crazinessspeaks@gmail.com"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"ETH\",\n  \"quantity\":1,\n  \"price\":1100.25\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "84d32183-8356-4015-8e26-4c1cc5d06dc3",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "e0b9764c-0591-474a-9a64-211f69a2141a",
+            "name": "All Transactions",
+            "url": "http://127.0.0.1:8000/portfolio/transactions",
+            "method": "GET",
+            "sortNum": 40000,
+            "created": "2024-02-04T15:36:28.779Z",
+            "modified": "2024-02-09T16:50:45.571Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "2"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "3b943f36-718f-477c-866c-686fad307b6e",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Portfolio",
+            "url": "http://127.0.0.1:8000/portfolio/portfolios",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-02-04T15:40:23.897Z",
+            "modified": "2024-03-10T11:50:11.461Z",
+            "headers": [
+                {
+                    "name": "Userid",
+                    "value": "crazinessspeaks123456@gmail.com"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "98535cb2-c6d5-4384-948f-1675590ea70a",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Create Watchlist",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/add",
+            "method": "POST",
+            "sortNum": 60000,
+            "created": "2024-02-04T15:48:18.645Z",
+            "modified": "2024-02-09T16:47:42.832Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\":\"tanmai\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "6dac7260-01a9-4f38-b644-bed1391e7a47",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Portfolio Copy",
+            "url": "http://127.0.0.1:8000/portfolio/get_daily_investments",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2024-03-08T11:26:31.692Z",
+            "modified": "2024-03-10T18:09:13.176Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "email12@gmail.com"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "9c6a306c-533c-4940-9698-41c9d1c88f84",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Get All Watchlist",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-02-04T15:50:46.183Z",
+            "modified": "2024-03-10T19:23:45.014Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "crazinessspeaks@gmail.com"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "1061cd8f-09ce-4fdf-8e51-4418a8aecb83",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Add Asset to watchlist",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/3/add",
+            "method": "POST",
+            "sortNum": 70000,
+            "created": "2024-02-04T15:56:10.638Z",
+            "modified": "2024-02-09T16:50:06.103Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"TANMAI\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "30677f77-2333-4f2e-9f9e-797ec796c553",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "b39d62e6-6f6c-40c7-8056-06ed256e29f6",
+            "name": "Get  Daily Investment",
+            "url": "http://127.0.0.1:8000/portfolio/get_daily_investments",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-03-10T18:11:05.471Z",
+            "modified": "2024-03-10T18:11:05.471Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "email12@gmail.com"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "3e1eaa34-0e65-45ae-885f-e3e4d30db405",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Add Asset to watchlist Copy",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/2/delete",
+            "method": "DELETE",
+            "sortNum": 75000,
+            "created": "2024-02-04T16:17:51.531Z",
+            "modified": "2024-02-04T16:18:50.846Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "4"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"REL\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "1e3d157c-3c5f-40d3-8fbe-ccbbc746760c",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
+            "name": "Get All Asset in a WatchList",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/1",
+            "method": "GET",
+            "sortNum": 80000,
+            "created": "2024-02-04T16:10:04.685Z",
+            "modified": "2024-02-04T17:53:05.199Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "e57f9489-4b65-449e-be53-408bab0f0210",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Asset_Pricing",
+            "url": "http://127.0.0.1:8000/asset_pricing/latest?ticker=IBM",
+            "method": "GET",
+            "sortNum": 90000,
+            "created": "2024-02-04T16:31:34.011Z",
+            "modified": "2024-03-09T15:27:38.597Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "ticker",
+                    "value": "IBM",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "3db64c70-56fd-48e3-96fe-21d97d8888cf",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Gainers Losers",
+            "url": "http://127.0.0.1:8000/asset_pricing/top_gainers_losers?timestamp=2023-12-31T00:00:00Z",
+            "method": "GET",
+            "sortNum": 95000,
+            "created": "2024-03-08T08:58:46.211Z",
+            "modified": "2024-03-08T09:31:26.458Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "timestamp",
+                    "value": "2023-12-31T00:00:00Z",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "7092a8cc-a683-4905-856e-b345dedb10b0",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Gainers Losers Copy",
+            "url": "http://127.0.0.1:8000/asset_pricing/recalculate_asset_pricings?ticker=BTC",
+            "method": "GET",
+            "sortNum": 97500,
+            "created": "2024-03-08T10:49:02.813Z",
+            "modified": "2024-03-08T11:09:23.486Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "ticker",
+                    "value": "BTC",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "48c0fad8-4bbd-4b3a-a691-76ee694335d6",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Create Asset Pricing",
+            "url": "http://127.0.0.1:8000/asset_pricing/create",
+            "method": "POST",
+            "sortNum": 100000,
+            "created": "2024-02-04T16:32:29.377Z",
+            "modified": "2024-03-08T09:00:44.854Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"IBM\",\n  \"market_value\":1000,\n  \"high\":1030,\n  \"low\":90,\n  \"open\":110,\n  \"close\":90,\n  \"timestamp1\":\"2024-03-08T20:24:00Z\",\n  \"currency\": \"Rupee\"\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "00e8dab6-882c-4a29-a15a-61cbaea3a26f",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "0e8d375a-5c43-47a0-a49b-ed68e41c0c12",
+            "name": "Create Asset",
+            "url": "http://127.0.0.1:8000/assets",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2024-02-05T04:50:57.582Z",
+            "modified": "2024-03-05T16:32:22.073Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"ticker\":\"BTC1\",\n  \"name\":\"Bitcoin\",\n  \"description\":\"THe Bitcoint with real values\",\n  \"category\":\"crypto\"\n}",
+                "form": []
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "af0bcf30-5b8c-42b5-801d-90808548a5a7",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Create Asset Pricing Copy",
+            "url": "http://127.0.0.1:8000/asset_pricing/bulk_upload?ticker=ETH",
+            "method": "POST",
+            "sortNum": 110000,
+            "created": "2024-03-01T15:41:00.831Z",
+            "modified": "2024-03-05T16:38:04.439Z",
+            "headers": [
+                {
+                    "name": "Content-Disposition",
+                    "value": "attachment;filename=daily_IBM.csv"
+                },
+                {
+                    "name": "ticker",
+                    "value": "IBM",
+                    "isDisabled": true
+                }
+            ],
+            "params": [
+                {
+                    "name": "ticker",
+                    "value": "ETH",
+                    "isPath": false
+                }
+            ],
+            "body": {
+                "type": "binary",
+                "raw": "",
+                "form": [],
+                "binary": "c:\\Users\\crazi\\Downloads\\currency_weekly_ETH_INR.csv"
+            },
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "9d75ce3d-b653-4d0c-b925-2356890fbc26",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "0e8d375a-5c43-47a0-a49b-ed68e41c0c12",
+            "name": "Get Assests",
+            "url": "http://localhost:800/assets?ticker=ETH&start=2024-02-10T15:55:02.262374Z&end=2024-02-10T15:55:02.262374Z",
+            "method": "GET",
+            "sortNum": 120000,
+            "created": "2024-02-05T04:53:42.567Z",
+            "modified": "2024-03-10T20:17:16.316Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "ticker",
+                    "value": "ETH",
+                    "isPath": false
+                },
+                {
+                    "name": "start",
+                    "value": "2024-02-10T15:55:02.262374Z",
+                    "isPath": false
+                },
+                {
+                    "name": "end",
+                    "value": "2024-02-10T15:55:02.262374Z",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "b6b169cb-c38b-4566-a47f-fededc11ba46",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "e9a1b581-c973-4b19-938b-463ed55fc953",
+            "name": "Get metrics",
+            "url": "http://127.0.0.1:8000/portfolio/getmetrics",
+            "method": "GET",
+            "sortNum": 130000,
+            "created": "2024-02-08T10:09:19.646Z",
+            "modified": "2024-03-10T11:35:31.360Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "crazinessspeaks10@gmail.com"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "bef0df6e-d15d-44a0-8e58-a676338dd72c",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "519b3779-6f7a-45f7-a054-37d1b6a2bc4d",
+            "name": "Create Daily Portfolio",
+            "url": "http://127.0.0.1:8000/portfolio/create_daily_portfolio",
+            "method": "POST",
+            "sortNum": 140000,
+            "created": "2024-03-08T08:12:29.346Z",
+            "modified": "2024-03-08T08:31:47.208Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n\n  \"timestamp\":\"2024-03-11T20:24:00Z\"\n}",
+                "form": []
+            },
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "f6326638-0ac4-4b33-9e1b-cc36cb691e5e",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "519b3779-6f7a-45f7-a054-37d1b6a2bc4d",
+            "name": "Create Daily Portfolio Copy",
+            "url": "http://127.0.0.1:8000/portfolio/get_daily_portfolio",
+            "method": "GET",
+            "sortNum": 150000,
+            "created": "2024-03-08T08:26:30.222Z",
+            "modified": "2024-03-08T08:26:39.112Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "reqType": "post",
+            "tests": []
+        },
+        {
+            "_id": "1b7aae94-978f-456e-9c43-4a1a9b7eac60",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "78332ce1-254f-4122-ad90-b034865ebb2c",
+            "name": "get_notifications",
+            "url": "http://127.0.0.1:8000/notifications/get_notifications",
+            "method": "GET",
+            "sortNum": 160000,
+            "created": "2024-03-10T15:45:34.376Z",
+            "modified": "2024-03-10T15:47:40.552Z",
+            "headers": [
+                {
+                    "name": "Userid",
+                    "value": "crazinessspeaks@gmail.com"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "e9cab365-bf65-472f-82b2-e711b6c8e84c",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "78332ce1-254f-4122-ad90-b034865ebb2c",
+            "name": "get_notifications Copy",
+            "url": "http://127.0.0.1:8000/notifications/get_notifications?unread=true&count=1",
+            "method": "GET",
+            "sortNum": 165000,
+            "created": "2024-03-10T18:40:17.981Z",
+            "modified": "2024-03-10T18:51:41.923Z",
+            "headers": [
+                {
+                    "name": "Userid",
+                    "value": "email12@gmail.com"
+                }
+            ],
+            "params": [
+                {
+                    "name": "unread",
+                    "value": "true",
+                    "isPath": false
+                },
+                {
+                    "name": "count",
+                    "value": "1",
+                    "isPath": false
+                }
+            ],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "7b687d1b-22c6-4a77-a2d8-8f9b779ffe63",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "78332ce1-254f-4122-ad90-b034865ebb2c",
+            "name": "mark ad red",
+            "url": "http://127.0.0.1:8000/notifications/mark_as_read?id=1",
+            "method": "GET",
+            "sortNum": 170000,
+            "created": "2024-03-10T15:50:17.590Z",
+            "modified": "2024-03-10T15:58:25.805Z",
+            "headers": [
+                {
+                    "name": "Userid",
+                    "value": "crazinessspeaks@gmail.com"
+                }
+            ],
+            "params": [
+                {
+                    "name": "id",
+                    "value": "1",
+                    "isPath": false
+                }
+            ],
+            "tests": []
+        },
+        {
+            "_id": "c5a1b2e6-c1eb-4c8d-9213-3e11a9992fb1",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "78332ce1-254f-4122-ad90-b034865ebb2c",
+            "name": "mark ad red Copy",
+            "url": "http://127.0.0.1:8000/notifications/mark_as_read_all",
+            "method": "GET",
+            "sortNum": 180000,
+            "created": "2024-03-10T16:01:08.425Z",
+            "modified": "2024-03-10T16:01:29.450Z",
+            "headers": [
+                {
+                    "name": "Userid",
+                    "value": "crazinessspeaks@gmail.com"
+                }
+            ],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        }
+    ]
+}

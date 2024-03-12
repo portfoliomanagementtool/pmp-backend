@@ -1,11 +1,26 @@
 from django.db import models
-
+from assets.models import Asset
 class asset_pricing(models.Model):
-    ticker = models.CharField("Enter Ticker", max_length=10,primary_key=True)  
-    market_traded = models.DecimalField("Market Traded", max_digits=5, decimal_places=5)  
-    market_value = models.DecimalField("Market Value", max_digits=5, decimal_places=5) 
-    timestamp1 = models.TimeField(auto_now=False, auto_now_add=False)  
-    currency = models.CharField("Enter Currency", max_length=10,primary_key=False)
+    ticker = models.ForeignKey(Asset, max_length=10,related_name="asset_price_relation",on_delete=models.CASCADE,default=None)
+    market_value = models.FloatField("Market Value")
+    open=models.FloatField(blank=True,null=True)
+    close=models.FloatField(blank=True,null=True)
+    high=models.FloatField(blank=True,null=True)
+    low=models.FloatField(blank=True,null=True)
+    ft_week_high=models.FloatField(blank=True,null=True)
+    ft_week_low=models.FloatField(blank=True,null=True)
+    month_high=models.FloatField(blank=True,null=True)
+    month_low=models.FloatField(blank=True,null=True)
+    overall_high=models.FloatField(blank=True,null=True)
+    overall_low=models.FloatField(blank=True,null=True)
+
+    ##Day gain loss
+    day_change=models.FloatField(default=0)
+    day_change_percentage=models.FloatField(default=0)
     
-    class Meta:  
-        db_table = "asset_pricing"
+    timestamp1 = models.DateTimeField(auto_now=False, auto_now_add=False)
+    currency = models.CharField("Enter Currency", max_length=10)
+
+    class Meta:
+        db_table = "asset_pricing1"
+        unique_together = (('ticker', 'timestamp1'))

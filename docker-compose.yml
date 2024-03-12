@@ -26,7 +26,7 @@
 #  db:
 #    driver: local
 services:
-  timescaledb:
+  timescaledb1:
     image: timescale/timescaledb:latest-pg15
     restart: always
     environment:
@@ -35,6 +35,21 @@ services:
       POSTGRES_PASSWORD: 011000101
     ports:
       - '5440:5432'
-    volumes:
+    expose:
+      - 5440
+
+  # pmp:
+  #   image: pmp
+  #   restart: always
+  #   ports:
+  #     - '8000:8000'
+  #   depends_on:
+  #     - timescaledb1
+  #   environment:
+  #     - TIMESCALEDB_HOST=timescaledb1
+  #     - TIMESCALEDB_PASSWORD=2359361
+
+    
+    # volumes:
       #db:/var/lib/postgresql/data
-      - ./pmp_dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      # - ./pmp_dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
