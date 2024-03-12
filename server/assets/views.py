@@ -53,27 +53,27 @@ class AssetListCreateView(generics.ListCreateAPIView):
                         print("Before start:", before_start)
                         print("Before end:", before_end)
                         changes={
-                            "Default":{
+                            "default":{
                                 "change":asset_data['day_change'],
                                 "change_percentage":asset_data['day_change_percentage']
                             },
-                            "1M":{
+                            "one_month":{
                                 "change":total_change,
                                 "change_percentage":total_change_percentage
                             },
-                            "1Y":{
+                            "six_month":{
                                 "change":total_change,
                                 "change_percentage":total_change_percentage
                             },
-                            "YTD":{
+                            "ytd":{
                                 "change":total_change,
                                 "change_percentage":total_change_percentage
                             },
-                            "6M":{
+                            "six_month":{
                                 "change":total_change,
                                 "change_percentage":total_change_percentage
                             },
-                            "overall":{
+                            "all":{
                                 "change":total_change,
                                 "change_percentage":total_change_percentage
                             }
@@ -82,28 +82,28 @@ class AssetListCreateView(generics.ListCreateAPIView):
                         if before_month and before_month.market_value>0:
                             month_change=before_end.market_value-before_month.market_value
                             month_change_percentage=(month_change/before_month.market_value)*100
-                            changes["1M"]={
+                            changes["one_month"]={
                                 "change":month_change,
                                 "change_percentage":month_change_percentage
                             }
                         if before_year and before_year.market_value>0:
                             year_change=before_end.market_value-before_year.market_value
                             year_change_percentage=(year_change/before_year.market_value)*100
-                            changes["1Y"]={
+                            changes["one_year"]={
                                 "change":year_change,
                                 "change_percentage":year_change_percentage
                             }
                         if before_six_month and before_six_month.market_value>0:
                             six_month_change=before_end.market_value-before_six_month.market_value
                             six_month_change_percentage=(six_month_change/before_six_month.market_value)*100
-                            changes["6M"]={
+                            changes["six_month"]={
                                 "change":six_month_change,
                                 "change_percentage":six_month_change_percentage
                             }
                         if before_first_date_of_this_year and before_first_date_of_this_year.market_value>0:
                             ytd_change=before_end.market_value-before_first_date_of_this_year.market_value
                             ytd_change_percentage=(ytd_change/before_first_date_of_this_year.market_value)*100
-                            changes["YTD"]={
+                            changes["ytd"]={
                                 "change":ytd_change,
                                 "change_percentage":ytd_change_percentage
                             }
