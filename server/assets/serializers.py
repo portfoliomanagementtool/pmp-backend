@@ -29,6 +29,16 @@ class AssetSerializerWithPricing(ModelSerializer):
     class Meta:
         model=Asset
         fields=['ticker','category','name','pricing','daypl']
+    def to_representation(self, instance):
+        asset=super().to_representation(instance)
+        if asset['pricing']==None:
+            return asset
+        if asset['pricing']==0:
+            asset['daypl_percent']=0
+        else:
+            asset['daypl_percent']=asset['daypl']/asset['pricing']*100
+        return asset
+    
 
 
 class BaseAssetPricing(ModelSerializer):
