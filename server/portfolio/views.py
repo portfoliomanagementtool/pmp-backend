@@ -110,7 +110,7 @@ def list_watchlists(request):
     try:
         user=request.pmp_user
         watchlists=Watchlist.objects.filter(pmp_user=user)
-        if watchlists is None:
+        if watchlists.first() is None:
             Watchlist.objects.create(pmp_user=user,name="Default")
         watchlists=Watchlist.objects.filter(pmp_user=user)
         return JsonResponse(status=200,data={"message":"Fetched a Watchlist Successfully","data":WatchlistSerializer(watchlists,many=True).data})

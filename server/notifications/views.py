@@ -9,7 +9,7 @@ from django.http import JsonResponse
 @auth_required
 def get_notifications(request):
     try:
-        notifications=Notification.objects.filter(user=request.pmp_user).order_by('created_at')
+        notifications=Notification.objects.filter(user=request.pmp_user).order_by('-created_at')
         if request.GET.get('unread')=='true':
             notifications=notifications.filter(is_read=False)
         # counted_notifications=None
