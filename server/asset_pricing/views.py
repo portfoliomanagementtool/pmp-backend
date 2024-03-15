@@ -12,7 +12,8 @@ from django.http import JsonResponse
 from datetime import timedelta,datetime
 from django.db.models import Max, Min
 from pmp_auth.decorators import auth_required
-
+import os
+import requests
 from rest_framework.parsers import FileUploadParser,MultiPartParser
 log=Logger("asset_pricing Log")
 dummy_data={
@@ -187,11 +188,13 @@ def insert_csv(request):
 
 def put_daily_pricing_api(request):
     try:
-        import os
-        import requests
+        
 
         yesterday_date=datetime.now()-timedelta(days=1)
         yesterday_date_str=yesterday_date.strftime("%Y-%m-%d")
+        if requests.GET.get('date'):
+            yesterday_date_str=requests.GET.get('date')
+            yesterday_date=datetime.strptime(yesterday_date_str,"%Y-%m-%d")
         api_key=os.environ.get('API_KEY')
 
         api=f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/{yesterday_date_str}?adjusted=true&apiKey={api_key}"
@@ -262,6 +265,46 @@ def get_high_low(instance, time):
     return high_low
 
 
+def get_asset_pricings_from_api_last_500_days(request):
+    try:
+        api_key=os.environ.get('API_KEY')
+        ticker=request.GET.get('ticker')
+        if ticker==None:
+            return JsonResponse(status=400,data={"message":"Ticker not found"})
+        #date in this format:2024-03-15
+        today_date=datetime.now().date().strftime("%Y-%m-%d")
+        api=f"https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/2015-01-15/{today_date}?adjusted=true&sort=desc&limit=100&apiKey={api_key}"
+        response=requests.get(api)
+        data=response.json()
+        print("Received Data")
+        if(data['resultsCount'] and data['resultsCount']>0):
+            for i in data["results"]:
+                i['ticker']=ticker
+                i['timestamp1']=datetime.fromtimestamp(i['t']/1000)
+                i['market_value']=i['c']
+                i['currency']="USD"
+                i['market_traded']="US"
+                i['open']=i['o']
+                i['high']=i['h']
+                i['low']=i['l']
+                i['close']=i['c']
+                i['volume']=i['v']
+                i['day_change']=i['c']-i['o']
+                i['day_change_percentage']=i['day_change']/i['o']*100
+            print("Data Processed")
+            serializer=AssetPricingSerializer(data=data['results'],many=True)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                
+                return JsonResponse({"data":"Success"})
+        return JsonResponse({"data":"False"})
+
+    except Exception as e:
+        log.error(e)
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error in Creating Pricings"})
+
+
 def recalculate_asset_pricings(request):
     try:
         ticker=request.GET.get('ticker')
@@ -274,7 +317,11 @@ def recalculate_asset_pricings(request):
             pre_inst=all_asset_pricing[i-1]
             perform_create_1(instance)
             instance.day_change=pre_inst.close-instance.close
-            instance.day_change_percentage=instance.day_change/pre_inst.close*100
+            if pre_inst.close!=0:
+                instance.day_change_percentage=instance.day_change/pre_inst.close*100
+            else:
+                instance.day_change_percentage=100
+            
             instance.save()
         return JsonResponse(status=200,data={"message":"Recalculated asset pricing"})
 

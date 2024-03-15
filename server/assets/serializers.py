@@ -49,10 +49,14 @@ class BaseAssetPricing(ModelSerializer):
     
 class AssetSerializerWithPricingForTableData(ModelSerializer):
     def getPricingDetails(self,asset):
-        pricing=asset_pricing.objects.filter(ticker=asset.ticker).latest('timestamp1')
-        if(pricing==None):
+        try:
+            pricing=asset_pricing.objects.filter(ticker=asset.ticker).latest('timestamp1')
+            print(pricing)
+            if(pricing==None):
+                return None
+            return BaseAssetPricing(pricing,many=False).data
+        except:
             return None
-        return BaseAssetPricing(pricing,many=False).data
     
     pricing=SerializerMethodField('getPricingDetails')
 
