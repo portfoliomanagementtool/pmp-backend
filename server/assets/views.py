@@ -22,6 +22,7 @@ class AssetListCreateView(generics.ListCreateAPIView):
     def get(self, request):
         print("custom list")
         
+        ticker=request.query_params.get('ticker',None)
         if ticker:
             queryset = self.get_queryset()
             response = super().list(request)
@@ -29,7 +30,6 @@ class AssetListCreateView(generics.ListCreateAPIView):
             # ticker=request.query_params.get('ticker',None)
             # start=request.query_params.get('start',None)
             # end=request.query_params.get('end',None)
-            ticker=request.query_params.get('ticker',None)
             end=datetime.datetime.now()
             month_ago=end-datetime.timedelta(days=30)
             year_ago=end-datetime.timedelta(days=365)
