@@ -21,11 +21,11 @@ class AssetListCreateView(generics.ListCreateAPIView):
 
     def get(self, request):
         print("custom list")
+        queryset = self.get_queryset()
+        response = super().list(request)
         
         ticker=request.query_params.get('ticker',None)
         if ticker:
-            queryset = self.get_queryset()
-            response = super().list(request)
             serializer = self.get_serializer(queryset, many=True)
             # ticker=request.query_params.get('ticker',None)
             # start=request.query_params.get('start',None)
