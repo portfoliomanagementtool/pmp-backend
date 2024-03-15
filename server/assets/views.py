@@ -21,19 +21,20 @@ class AssetListCreateView(generics.ListCreateAPIView):
 
     def get(self, request):
         print("custom list")
-        queryset = self.get_queryset()
-        response = super().list(request)
-        serializer = self.get_serializer(queryset, many=True)
-        # ticker=request.query_params.get('ticker',None)
-        # start=request.query_params.get('start',None)
-        # end=request.query_params.get('end',None)
-        ticker=request.query_params.get('ticker',None)
-        end=datetime.datetime.now()
-        month_ago=end-datetime.timedelta(days=30)
-        year_ago=end-datetime.timedelta(days=365)
-        six_month_ago=end-datetime.timedelta(days=180)
         
         if ticker:
+            queryset = self.get_queryset()
+            response = super().list(request)
+            serializer = self.get_serializer(queryset, many=True)
+            # ticker=request.query_params.get('ticker',None)
+            # start=request.query_params.get('start',None)
+            # end=request.query_params.get('end',None)
+            ticker=request.query_params.get('ticker',None)
+            end=datetime.datetime.now()
+            month_ago=end-datetime.timedelta(days=30)
+            year_ago=end-datetime.timedelta(days=365)
+            six_month_ago=end-datetime.timedelta(days=180)
+        
             try:
                 for asset_data in serializer.data:
                     ticker = asset_data.get('ticker')
@@ -49,9 +50,7 @@ class AssetListCreateView(generics.ListCreateAPIView):
                         total_change=before_end.market_value-before_start.market_value
                         total_change_percentage=(total_change/before_start.market_value)*100
 
-                        # Calculate day_change and day_change_percentage
-                        print("Before start:", before_start)
-                        print("Before end:", before_end)
+                        
                         changes={
                             "default":{
                                 "change":asset_data['day_change'],

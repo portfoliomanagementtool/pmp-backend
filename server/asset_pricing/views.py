@@ -192,7 +192,7 @@ def put_daily_pricing_api(request):
 
         yesterday_date=datetime.now()-timedelta(days=1)
         yesterday_date_str=yesterday_date.strftime("%Y-%m-%d")
-        if requests.GET.get('date'):
+        if request.GET and requests.GET.get('date'):
             yesterday_date_str=requests.GET.get('date')
             yesterday_date=datetime.strptime(yesterday_date_str,"%Y-%m-%d")
         api_key=os.environ.get('API_KEY')
