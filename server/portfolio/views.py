@@ -8,6 +8,7 @@ from asset_pricing.models import asset_pricing
 from .serializers import TransactionItemSerializer,PortfolioSerializer,WatchlistSerializer,WatchlistWithAssestsSerializer ,PortfolioDailySerializer
 from django.db import transaction
 from notifications.views import create_notification
+from pmp_user.models import pmp_user as User
 # Create your views here.
 
 @auth_required
@@ -288,6 +289,16 @@ def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now(),res=True):
         print(e)
         return JsonResponse(status=400,data={"message":"Error while creating daily portfolio"})
     
+def create_daily_portfolio_for_all_user(request):
+    try:
+        users=User.objects.all()
+        for user in users:
+            _create_daily_portfolio(user,datetime.datetime.now())
+            create_notification(user,"UPDATE","Latest daily portfolio created")
+        return JsonResponse(status=200,data={"message":"Daily Portfolio created successfully"})
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while creating daily portfolio"})
     
 @auth_required
 def create_portfolio_api(req):
