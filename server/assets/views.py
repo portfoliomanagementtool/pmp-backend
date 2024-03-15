@@ -68,7 +68,7 @@ class AssetListCreateView(generics.ListCreateAPIView):
                                 "change":total_change,
                                 "change_percentage":total_change_percentage
                             },
-                            "six_month":{
+                            "one_year":{
                                 "change":total_change,
                                 "change_percentage":total_change_percentage
                             },
