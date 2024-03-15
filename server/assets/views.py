@@ -40,12 +40,12 @@ class AssetListCreateView(generics.ListCreateAPIView):
                     ticker = asset_data.get('ticker')
                     if ticker:
                         # Fetch pricing data based on ticker
-                        before_start = asset_pricing.objects.filter(ticker=ticker).earliest('timestamp1')
-                        before_end = asset_pricing.objects.filter(ticker=ticker).latest('timestamp1')
-                        before_month=asset_pricing.objects.filter(ticker=ticker,timestamp1__lte=month_ago).latest('timestamp1')
-                        before_year=asset_pricing.objects.filter(ticker=ticker,timestamp1__lte=year_ago).latest('timestamp1')
-                        before_six_month=asset_pricing.objects.filter(ticker=ticker,timestamp1__lte=six_month_ago).latest('timestamp1')
-                        before_first_date_of_this_year=asset_pricing.objects.filter(ticker=ticker,timestamp1__lte=datetime.datetime(end.year,1,1)).latest('timestamp1')
+                        before_start = asset_pricing.objects.filter(ticker=ticker).order_by('timestamp1').first()
+                        before_end = asset_pricing.objects.filter(ticker=ticker).order_by('-timestamp1').first()
+                        before_month=asset_pricing.objects.filter(ticker=ticker,timestamp1__lte=month_ago).order_by('-timestamp1').first()
+                        before_year=asset_pricing.objects.filter(ticker=ticker,timestamp1__lte=year_ago).order_by('-timestamp1').first()
+                        before_six_month=asset_pricing.objects.filter(ticker=ticker,timestamp1__lte=six_month_ago).order_by('-timestamp1').first()
+                        before_first_date_of_this_year=asset_pricing.objects.filter(ticker=ticker,timestamp1__lte=datetime.datetime(end.year,1,1)).order_by('-timestamp1').first()
 
                         total_change=before_end.market_value-before_start.market_value
                         total_change_percentage=(total_change/before_start.market_value)*100
