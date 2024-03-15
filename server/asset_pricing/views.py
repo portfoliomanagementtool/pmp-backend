@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view,parser_classes
 from rest_framework.response import Response
 from .serializers import AssetPricingSerializer,GainLossSerializer
 from asset_pricing.models import asset_pricing
+from assets.models import Asset
 from logging import Logger
 from rest_framework import filters
 from rest_framework import status,generics
@@ -184,7 +185,55 @@ def insert_csv(request):
         return Response(status=status.HTTP_200_OK,data={"message":"Excel file received"})
     return Response(status=400,data={"message":"Invalid Excel file"})
 
+def put_daily_pricing_api(request):
+    try:
+        import os
+        import requests
 
+        yesterday_date=datetime.now()-timedelta(days=1)
+        yesterday_date_str=yesterday_date.strftime("%Y-%m-%d")
+        api_key=os.environ.get('API_KEY')
+
+        api=f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/{yesterday_date_str}?adjusted=true&apiKey={api_key}"
+        response=requests.get(api)
+        data=response.json()
+        if(data['queryCount'] and data['queryCount']>0):
+            data=data['results']
+            sorted_data=sorted(data,key=lambda x:x['T'])[:50]
+            today_date=datetime.now()
+            for i in sorted_data:
+                if(not Asset.objects.filter(ticker=i['T']).exists()):
+                    Asset.objects.create(ticker=i['T'],description=i['T'])
+                    
+                i['ticker']=i['T']
+                i['timestamp1']=today_date
+                i['market_value']=i['c']
+                i['currency']="USD"
+                i['market_traded']="US"
+                i['open']=i['o']
+                i['high']=i['h']
+                i['low']=i['l']
+                i['close']=i['c']
+                i['volume']=i['v']
+                i['day_change']=i['c']-i['o']
+                i['day_change_percentage']=i['day_change']/i['o']*100
+            
+            serializer=AssetPricingSerializer(data=sorted_data,many=True)
+            from django.db import transaction
+            with transaction.atomic():
+                if serializer.is_valid(raise_exception=True):
+                    serializer.save()
+                    for ins in serializer.instance:
+                        perform_create_1(ins)
+                        ins.day_change=ins.close-ins.open
+                        ins.day_change_percentage=ins.day_change/ins.open*100
+                    return JsonResponse({"data":"Success"})
+            
+        return JsonResponse({"data":"False"})
+    except Exception as e:
+        log.error(e)
+        return JsonResponse(status=400,data={"message":"Error in getting top gainers"})
+    
 def perform_create_1(instance):
     hl_52 = get_high_low(instance, 365)
     hl_month = get_high_low(instance, 30)
