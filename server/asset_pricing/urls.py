@@ -10,5 +10,6 @@ urlpatterns = [
     path('asset_pricing/recalculate_asset_pricings', views.recalculate_asset_pricings, name='top_gainers_losers'),
     path('put_asset_pricing_daily',views.put_daily_pricing_api),
     path('put_asset_pricing_for_asset',views.get_asset_pricings_from_api_last_500_days),
+    path('test',views.all_assets_data_to_CSV)
 ]
 

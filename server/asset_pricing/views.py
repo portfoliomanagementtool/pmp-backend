@@ -185,7 +185,29 @@ def insert_csv(request):
         
         return Response(status=status.HTTP_200_OK,data={"message":"Excel file received"})
     return Response(status=400,data={"message":"Invalid Excel file"})
-
+required_tickers=["X:BTCUSD",
+"X:ETHUSD",
+"SPY",
+"QQQ",
+"VB",
+"RWJ",
+"EEM",
+"EWX",
+"EFA",
+"VSS",
+"GLD",
+"XOP",
+"XRT",
+"XLB",
+"XLE",
+"XLY",
+"XLK",
+"XLV",
+"XLI",
+"XLU",
+"XLP",
+"XLF",
+"XLC"]
 def put_daily_pricing_api(request):
     try:
         
@@ -198,15 +220,18 @@ def put_daily_pricing_api(request):
         api_key=os.environ.get('API_KEY')
 
         api=f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/{yesterday_date_str}?adjusted=true&apiKey={api_key}"
+        crypto_api=f"https://api.polygon.io/v2/aggs/grouped/locale/global/market/crypto/{yesterday_date_str}?adjusted=true&apiKey={api_key}"
         response=requests.get(api)
+        response_crypto=requests.get(crypto_api)
         data=response.json()
+        data_crypto=response_crypto.json()
         if(data['queryCount'] and data['queryCount']>0):
             data=data['results']
-            sorted_data=sorted(data,key=lambda x:x['T'])[:50]
+            sorted_data=list(filter(lambda x:x['T'] in required_tickers,data))
             today_date=datetime.now()
             for i in sorted_data:
                 if(not Asset.objects.filter(ticker=i['T']).exists()):
-                    Asset.objects.create(ticker=i['T'],description=i['T'])
+                    Asset.objects.create(ticker=i['T'],description=i['T'],category="stocks",name=i['T'])
                     
                 i['ticker']=i['T']
                 i['timestamp1']=today_date
@@ -230,9 +255,39 @@ def put_daily_pricing_api(request):
                         perform_create_1(ins)
                         ins.day_change=ins.close-ins.open
                         ins.day_change_percentage=ins.day_change/ins.open*100
-                    return JsonResponse({"data":"Success"})
+                    
+        
+        if(data_crypto['queryCount'] and data_crypto['queryCount']>0):
+            data_crypto=list(filter(lambda x:x['T'] in required_tickers,data_crypto['results']))
+
+            for i in data_crypto:
+                if(not Asset.objects.filter(ticker=i['T']).exists()):
+                    Asset.objects.create(ticker=i['T'],description=i['T'],category="crypto",name=i['T'])
+                    
+                i['ticker']=i['T']
+                i['timestamp1']=today_date
+                i['market_value']=i['c']
+                i['currency']="USD"
+                i['market_traded']="US"
+                i['open']=i['o']
+                i['high']=i['h']
+                i['low']=i['l']
+                i['close']=i['c']
+                i['volume']=i['v']
+                i['day_change']=i['c']-i['o']
+                i['day_change_percentage']=i['day_change']/i['o']*100
             
-        return JsonResponse({"data":"False"})
+            serializer=AssetPricingSerializer(data=data_crypto,many=True)
+            with transaction.atomic():
+                if serializer.is_valid(raise_exception=True):
+                    serializer.save()
+                    for ins in serializer.instance:
+                        perform_create_1(ins)
+                        ins.day_change=ins.close-ins.open
+                        ins.day_change_percentage=ins.day_change/ins.open*100
+                    return JsonResponse({"data":"Success"})
+        
+        return JsonResponse({"data":"Success"})
     except Exception as e:
         log.error(e)
         return JsonResponse(status=400,data={"message":"Error in getting top gainers"})
@@ -273,7 +328,14 @@ def get_asset_pricings_from_api_last_500_days(request):
             return JsonResponse(status=400,data={"message":"Ticker not found"})
         #date in this format:2024-03-15
         today_date=datetime.now().date().strftime("%Y-%m-%d")
-        api=f"https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/2015-01-15/{today_date}?adjusted=true&sort=desc&limit=100&apiKey={api_key}"
+        asset=Asset.objects.get(ticker=ticker)
+        if(asset==None):
+            return JsonResponse(status=400,data={"message":"Asset not found"})
+        api=None
+        if(asset.category=="stocks"):
+            api=f"https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/2015-01-15/{today_date}?adjusted=true&sort=desc&limit=100&apiKey={api_key}"
+        elif (asset.category=="crypto"):
+            api=f"https://api.polygon.io/v2/aggs/ticker/{ticker}/range/1/day/2015-01-15/{today_date}?adjusted=true&sort=desc&limit=100&apiKey={api_key}"
         response=requests.get(api)
         data=response.json()
         print("Received Data")
@@ -328,3 +390,21 @@ def recalculate_asset_pricings(request):
     except Exception as e:
         log.error(e)
         return JsonResponse(status=400,data={"message":"Error in getting top gainers"})
+
+
+def all_assets_data_to_CSV(request):
+    import pandas as pd
+    api_key=os.environ.get('API_KEY')
+    stock_api=f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/2024-03-21?adjusted=true&apiKey={api_key}"
+    response=requests.get(stock_api)
+    stock_data=response.json()
+    stock_data=stock_data['results']
+    stock_data=pd.DataFrame(stock_data)
+    crypto_api=f"https://api.polygon.io/v2/aggs/grouped/locale/global/market/crypto/2023-01-09?adjusted=true&apiKey={api_key}"
+    response=requests.get(crypto_api)
+    crypto_data=response.json()
+    crypto_data=crypto_data['results']
+    crypto_data=pd.DataFrame(crypto_data)
+    data=pd.concat([stock_data,crypto_data])
+    data.to_csv("all_assets_data.csv")
+    return JsonResponse({"message":"Data saved to CSV"})
