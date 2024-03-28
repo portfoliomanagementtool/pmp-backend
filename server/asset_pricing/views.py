@@ -91,7 +91,7 @@ class asset_pricingListCreateView(generics.ListCreateAPIView):
         serializer.save(ft_week_high=hl_52['high'],ft_week_low=hl_52['low'],month_high=hl_month['high'],month_low=hl_month['low'],overall_high=hl_overall['high'],overall_low=hl_overall['low'],day_change=day_change,day_change_percentage=day_change_percentage)
     
     # def list(self,request):
-    #     queryset = self.get_queryset()
+        queryset = self.get_queryset()
     #     start
         
         serializer = AssetPricingSerializer(queryset, many=True)
