@@ -119,8 +119,9 @@ def get_top_gainers_losers(request):
     try:
         count=request.GET.get('count',5)
         timestamp=request.GET.get('timestamp',datetime.now().date())
-        top_gainers=asset_pricing.objects.filter(timestamp1=timestamp).order_by('-day_change_percentage')[:count]
-        top_losers=asset_pricing.objects.filter(timestamp1=timestamp).order_by('day_change_percentage')[:count]
+        #top_gainers for last update
+        top_gainers = asset_pricing.objects.filter(timestamp1__lte=timestamp).order_by('-timestamp1','-day_change_percentage')[:count]
+        top_losers = asset_pricing.objects.filter(timestamp1__lte=timestamp).order_by( '-timestamp1','day_change_percentage')[:count]
         return JsonResponse(status=200,data={"message":"Top gainers and losers","data":{"top_gainers":GainLossSerializer(top_gainers,many=True).data,"top_losers":GainLossSerializer(top_losers,many=True).data}})
     except Exception as e:
         log.error(e)
