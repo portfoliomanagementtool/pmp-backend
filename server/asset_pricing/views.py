@@ -118,7 +118,7 @@ class asset_pricingListCreateView(generics.ListCreateAPIView):
 def get_top_gainers_losers(request):   
     try:
         count=request.GET.get('count',5)
-        timestamp=request.GET.get('timestamp',datetime.now().date())
+        timestamp=request.GET.get('timestamp',datetime.now())
         #top_gainers for last update
         top_gainers = asset_pricing.objects.filter(timestamp1__lte=timestamp).order_by('-timestamp1','-day_change_percentage')[:count]
         top_losers = asset_pricing.objects.filter(timestamp1__lte=timestamp).order_by( '-timestamp1','day_change_percentage')[:count]
