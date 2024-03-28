@@ -250,7 +250,7 @@ def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now(),res=True):
         }
         
         for item in portfolio:
-            current_asset_pricing=asset_pricing.objects.filter(ticker=item.portfolio_asset.ticker)
+            current_asset_pricing=asset_pricing.objects.filter(ticker=item.portfolio_asset.ticker).order_by('-timestamp1')
             if(current_asset_pricing.first()!=None):
                 metrics['market_value']+=current_asset_pricing.first().market_value*item.quantity
             total_investment+=item.quantity*item.avg_buy_price
