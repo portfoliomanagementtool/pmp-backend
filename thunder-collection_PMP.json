@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "PMP",
-    "dateExported": "2024-03-10T20:17:25.258Z",
+    "dateExported": "2024-03-29T19:15:27.658Z",
     "version": "1.1",
     "folders": [
         {
@@ -74,11 +74,11 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "f31dc1e7-9c8e-42ff-866e-4a21ee816484",
             "name": "Create User",
-            "url": "http://pmp-back.azurewebsites.net/user/users/create",
-            "method": "POST",
+            "url": "http://localhost:8000/user/user/delete_user/admin_rights",
+            "method": "GET",
             "sortNum": 10000,
             "created": "2024-02-04T15:11:43.418Z",
-            "modified": "2024-03-10T13:10:16.855Z",
+            "modified": "2024-03-11T09:56:12.247Z",
             "headers": [],
             "params": [],
             "body": {
@@ -98,11 +98,11 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2024-02-04T15:13:50.126Z",
-            "modified": "2024-03-10T18:09:32.274Z",
+            "modified": "2024-03-11T10:20:21.050Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "email12@gmail.com"
+                    "value": "email@gmail.com"
                 }
             ],
             "params": [],
@@ -123,17 +123,17 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2024-02-04T15:16:46.425Z",
-            "modified": "2024-03-10T15:54:59.806Z",
+            "modified": "2024-03-11T10:54:13.123Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "crazinessspeaks@gmail.com"
+                    "value": "tanmaikamat@gmail.com"
                 }
             ],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"ticker\":\"ETH\",\n  \"quantity\":1,\n  \"price\":1100.25\n}",
+                "raw": "{\n  \"ticker\":\"IBM1\",\n  \"quantity\":1,\n  \"price\":1100.25\n}",
                 "form": []
             },
             "reqType": "post",
@@ -167,11 +167,11 @@
             "method": "GET",
             "sortNum": 50000,
             "created": "2024-02-04T15:40:23.897Z",
-            "modified": "2024-03-10T11:50:11.461Z",
+            "modified": "2024-03-11T10:48:44.846Z",
             "headers": [
                 {
                     "name": "Userid",
-                    "value": "crazinessspeaks123456@gmail.com"
+                    "value": "email@gmail.com"
                 }
             ],
             "params": [],
@@ -231,11 +231,11 @@
             "method": "GET",
             "sortNum": 70000,
             "created": "2024-02-04T15:50:46.183Z",
-            "modified": "2024-03-10T19:23:45.014Z",
+            "modified": "2024-03-12T05:24:21.145Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "crazinessspeaks@gmail.com"
+                    "value": "ronnit.mirgh@gmail.com"
                 }
             ],
             "params": [],
@@ -315,18 +315,19 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "65326463-7861-4463-bee9-26bec07a46e8",
             "name": "Get All Asset in a WatchList",
-            "url": "http://127.0.0.1:8000/portfolio/watchlist/1",
+            "url": "http://127.0.0.1:8000/portfolio/watchlist/4",
             "method": "GET",
             "sortNum": 80000,
             "created": "2024-02-04T16:10:04.685Z",
-            "modified": "2024-02-04T17:53:05.199Z",
+            "modified": "2024-03-12T05:25:13.379Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "1"
+                    "value": "ronnit.mirgh@gmail.com"
                 }
             ],
             "params": [],
+            "reqType": "get",
             "tests": []
         },
         {
@@ -334,20 +335,19 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
             "name": "Asset_Pricing",
-            "url": "http://127.0.0.1:8000/asset_pricing/latest?ticker=IBM",
+            "url": "pmp-back.azurewebsites.net/asset_pricing/latest?ticker=X:BTCUSD",
             "method": "GET",
             "sortNum": 90000,
             "created": "2024-02-04T16:31:34.011Z",
-            "modified": "2024-03-09T15:27:38.597Z",
+            "modified": "2024-03-26T19:24:08.301Z",
             "headers": [],
             "params": [
                 {
                     "name": "ticker",
-                    "value": "IBM",
+                    "value": "X:BTCUSD",
                     "isPath": false
                 }
             ],
-            "reqType": "get",
             "tests": []
         },
         {
@@ -355,20 +355,48 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
             "name": "Gainers Losers",
-            "url": "http://127.0.0.1:8000/asset_pricing/top_gainers_losers?timestamp=2023-12-31T00:00:00Z",
+            "url": "http://127.0.0.1:8000/asset_pricing/top_gainers_losers",
             "method": "GET",
             "sortNum": 95000,
             "created": "2024-03-08T08:58:46.211Z",
-            "modified": "2024-03-08T09:31:26.458Z",
+            "modified": "2024-03-28T15:44:35.720Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "8ddf554a-1177-4335-94df-fd3ab93711eb",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Gainers Losers Copy",
+            "url": "http://127.0.0.1:8000/put_asset_pricing_daily",
+            "method": "GET",
+            "sortNum": 96250,
+            "created": "2024-03-14T12:26:51.136Z",
+            "modified": "2024-03-14T13:09:36.060Z",
+            "headers": [],
+            "params": [],
+            "reqType": "get",
+            "tests": []
+        },
+        {
+            "_id": "9e05193a-fea7-4132-9479-e8cba278da80",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
+            "name": "Gainers Losers Copy Copy",
+            "url": "http://127.0.0.1:8000/put_asset_pricing_for_asset?ticker=X:ETHUSD",
+            "method": "GET",
+            "sortNum": 96875,
+            "created": "2024-03-15T08:01:08.003Z",
+            "modified": "2024-03-26T18:39:48.434Z",
             "headers": [],
             "params": [
                 {
-                    "name": "timestamp",
-                    "value": "2023-12-31T00:00:00Z",
+                    "name": "ticker",
+                    "value": "X:ETHUSD",
                     "isPath": false
                 }
             ],
-            "reqType": "get",
             "tests": []
         },
         {
@@ -376,20 +404,19 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "08f34731-656b-4108-a112-f2db9006c98d",
             "name": "Gainers Losers Copy",
-            "url": "http://127.0.0.1:8000/asset_pricing/recalculate_asset_pricings?ticker=BTC",
+            "url": "http://127.0.0.1:8000/asset_pricing/recalculate_asset_pricings?ticker=X:ETHUSD",
             "method": "GET",
             "sortNum": 97500,
             "created": "2024-03-08T10:49:02.813Z",
-            "modified": "2024-03-08T11:09:23.486Z",
+            "modified": "2024-03-26T18:40:03.801Z",
             "headers": [],
             "params": [
                 {
                     "name": "ticker",
-                    "value": "BTC",
+                    "value": "X:ETHUSD",
                     "isPath": false
                 }
             ],
-            "reqType": "get",
             "tests": []
         },
         {
@@ -421,15 +448,14 @@
             "method": "POST",
             "sortNum": 110000,
             "created": "2024-02-05T04:50:57.582Z",
-            "modified": "2024-03-05T16:32:22.073Z",
+            "modified": "2024-03-26T18:39:08.497Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"ticker\":\"BTC1\",\n  \"name\":\"Bitcoin\",\n  \"description\":\"THe Bitcoint with real values\",\n  \"category\":\"crypto\"\n}",
+                "raw": "{\n  \"ticker\":\"X:ETHUSD\",\n  \"name\":\"Ethereum\",\n  \"description\":\"A Crypto Currency Ethereum with USD Pricings\",\n  \"category\":\"crypto\"\n}",
                 "form": []
             },
-            "reqType": "post",
             "tests": []
         },
         {
@@ -441,7 +467,7 @@
             "method": "POST",
             "sortNum": 110000,
             "created": "2024-03-01T15:41:00.831Z",
-            "modified": "2024-03-05T16:38:04.439Z",
+            "modified": "2024-03-26T17:43:55.732Z",
             "headers": [
                 {
                     "name": "Content-Disposition",
@@ -466,7 +492,6 @@
                 "form": [],
                 "binary": "c:\\Users\\crazi\\Downloads\\currency_weekly_ETH_INR.csv"
             },
-            "reqType": "post",
             "tests": []
         },
         {
@@ -474,30 +499,13 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "0e8d375a-5c43-47a0-a49b-ed68e41c0c12",
             "name": "Get Assests",
-            "url": "http://localhost:800/assets?ticker=ETH&start=2024-02-10T15:55:02.262374Z&end=2024-02-10T15:55:02.262374Z",
+            "url": "http://127.0.0.1:8000/assets",
             "method": "GET",
             "sortNum": 120000,
             "created": "2024-02-05T04:53:42.567Z",
-            "modified": "2024-03-10T20:17:16.316Z",
+            "modified": "2024-03-26T17:45:39.503Z",
             "headers": [],
-            "params": [
-                {
-                    "name": "ticker",
-                    "value": "ETH",
-                    "isPath": false
-                },
-                {
-                    "name": "start",
-                    "value": "2024-02-10T15:55:02.262374Z",
-                    "isPath": false
-                },
-                {
-                    "name": "end",
-                    "value": "2024-02-10T15:55:02.262374Z",
-                    "isPath": false
-                }
-            ],
-            "reqType": "get",
+            "params": [],
             "tests": []
         },
         {
@@ -509,11 +517,11 @@
             "method": "GET",
             "sortNum": 130000,
             "created": "2024-02-08T10:09:19.646Z",
-            "modified": "2024-03-10T11:35:31.360Z",
+            "modified": "2024-03-11T10:53:31.681Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "crazinessspeaks10@gmail.com"
+                    "value": "tanmaikamat@gmail.com"
                 }
             ],
             "params": [],
@@ -546,6 +554,44 @@
             "tests": []
         },
         {
+            "_id": "0838a0e4-f4f3-425d-aa6f-3dd03de45e49",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "519b3779-6f7a-45f7-a054-37d1b6a2bc4d",
+            "name": "Create Daily Portfolio Copy",
+            "url": "http://127.0.0.1:8000/portfolio/create_daily_portfolio_for_all",
+            "method": "GET",
+            "sortNum": 145000,
+            "created": "2024-03-15T19:23:31.498Z",
+            "modified": "2024-03-28T16:39:59.382Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "1"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "b11c0a24-c630-49e5-b838-c405706f5359",
+            "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
+            "containerId": "519b3779-6f7a-45f7-a054-37d1b6a2bc4d",
+            "name": "Get Historic Portfolio Data",
+            "url": "http://127.0.0.1:8000/portfolio/get_historic_portfolios",
+            "method": "GET",
+            "sortNum": 147500,
+            "created": "2024-03-29T16:57:30.433Z",
+            "modified": "2024-03-29T16:59:33.068Z",
+            "headers": [
+                {
+                    "name": "UserId",
+                    "value": "crazinessspeaks@gmail.com"
+                }
+            ],
+            "params": [],
+            "tests": []
+        },
+        {
             "_id": "f6326638-0ac4-4b33-9e1b-cc36cb691e5e",
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "519b3779-6f7a-45f7-a054-37d1b6a2bc4d",
@@ -554,15 +600,15 @@
             "method": "GET",
             "sortNum": 150000,
             "created": "2024-03-08T08:26:30.222Z",
-            "modified": "2024-03-08T08:26:39.112Z",
+            "modified": "2024-03-15T19:24:58.653Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "1"
+                    "value": "tanmaikamat@gmail.com"
                 }
             ],
             "params": [],
-            "reqType": "post",
+            "reqType": "get",
             "tests": []
         },
         {
@@ -574,11 +620,11 @@
             "method": "GET",
             "sortNum": 160000,
             "created": "2024-03-10T15:45:34.376Z",
-            "modified": "2024-03-10T15:47:40.552Z",
+            "modified": "2024-03-12T05:31:24.349Z",
             "headers": [
                 {
                     "name": "Userid",
-                    "value": "crazinessspeaks@gmail.com"
+                    "value": "ronnit.mirgh@gmail.com"
                 }
             ],
             "params": [],
@@ -590,26 +636,21 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "78332ce1-254f-4122-ad90-b034865ebb2c",
             "name": "get_notifications Copy",
-            "url": "http://127.0.0.1:8000/notifications/get_notifications?unread=true&count=1",
+            "url": "http://127.0.0.1:8000/notifications/get_notifications?count=5",
             "method": "GET",
             "sortNum": 165000,
             "created": "2024-03-10T18:40:17.981Z",
-            "modified": "2024-03-10T18:51:41.923Z",
+            "modified": "2024-03-11T10:57:40.351Z",
             "headers": [
                 {
                     "name": "Userid",
-                    "value": "email12@gmail.com"
+                    "value": "tanmaikamat@gmail.com"
                 }
             ],
             "params": [
                 {
-                    "name": "unread",
-                    "value": "true",
-                    "isPath": false
-                },
-                {
                     "name": "count",
-                    "value": "1",
+                    "value": "5",
                     "isPath": false
                 }
             ],
@@ -650,11 +691,11 @@
             "method": "GET",
             "sortNum": 180000,
             "created": "2024-03-10T16:01:08.425Z",
-            "modified": "2024-03-10T16:01:29.450Z",
+            "modified": "2024-03-12T05:32:16.508Z",
             "headers": [
                 {
                     "name": "Userid",
-                    "value": "crazinessspeaks@gmail.com"
+                    "value": "ronnit.mirgh@gmail.com"
                 }
             ],
             "params": [],
