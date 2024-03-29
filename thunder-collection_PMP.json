@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "PMP",
-    "dateExported": "2024-03-29T19:15:27.658Z",
+    "dateExported": "2024-03-29T19:48:52.256Z",
     "version": "1.1",
     "folders": [
         {
@@ -148,11 +148,11 @@
             "method": "GET",
             "sortNum": 40000,
             "created": "2024-02-04T15:36:28.779Z",
-            "modified": "2024-02-09T16:50:45.571Z",
+            "modified": "2024-03-29T19:23:48.768Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "2"
+                    "value": "crazinessspeaks@gmail.com"
                 }
             ],
             "params": [],
@@ -513,19 +513,24 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "e9a1b581-c973-4b19-938b-463ed55fc953",
             "name": "Get metrics",
-            "url": "http://127.0.0.1:8000/portfolio/getmetrics",
+            "url": "http://127.0.0.1:8000/portfolio/getmetrics?end_date=2024-03-24T10:49:53.947116Z",
             "method": "GET",
             "sortNum": 130000,
             "created": "2024-02-08T10:09:19.646Z",
-            "modified": "2024-03-11T10:53:31.681Z",
+            "modified": "2024-03-29T19:25:20.008Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "tanmaikamat@gmail.com"
+                    "value": "crazinessspeaks@gmail.com"
                 }
             ],
-            "params": [],
-            "reqType": "get",
+            "params": [
+                {
+                    "name": "end_date",
+                    "value": "2024-03-24T10:49:53.947116Z",
+                    "isPath": false
+                }
+            ],
             "tests": []
         },
         {
@@ -577,18 +582,24 @@
             "colId": "17a180ab-e9ad-4130-bac2-e6e89cd6c402",
             "containerId": "519b3779-6f7a-45f7-a054-37d1b6a2bc4d",
             "name": "Get Historic Portfolio Data",
-            "url": "http://127.0.0.1:8000/portfolio/get_historic_portfolios",
+            "url": "http://127.0.0.1:8000/portfolio/get_historic_portfolios?end_date=2024-03-28T10:49:53.947116Z",
             "method": "GET",
             "sortNum": 147500,
             "created": "2024-03-29T16:57:30.433Z",
-            "modified": "2024-03-29T16:59:33.068Z",
+            "modified": "2024-03-29T19:48:14.019Z",
             "headers": [
                 {
                     "name": "UserId",
                     "value": "crazinessspeaks@gmail.com"
                 }
             ],
-            "params": [],
+            "params": [
+                {
+                    "name": "end_date",
+                    "value": "2024-03-28T10:49:53.947116Z",
+                    "isPath": false
+                }
+            ],
             "tests": []
         },
         {
@@ -600,15 +611,14 @@
             "method": "GET",
             "sortNum": 150000,
             "created": "2024-03-08T08:26:30.222Z",
-            "modified": "2024-03-15T19:24:58.653Z",
+            "modified": "2024-03-29T19:17:26.241Z",
             "headers": [
                 {
                     "name": "UserId",
-                    "value": "tanmaikamat@gmail.com"
+                    "value": "crazinessspeaks@gmail.com"
                 }
             ],
             "params": [],
-            "reqType": "get",
             "tests": []
         },
         {
