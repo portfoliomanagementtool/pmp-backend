@@ -206,12 +206,21 @@ def get_user_metrics(request):
     try:
         user=request.pmp_user
         portfolio=Portfolio.objects.filter(user=user).filter(quantity__gt=0)
+        end_date=request.GET.get('end_date',datetime.datetime.now())
         total_investment=0
-        latest_portfolio=PortfolioDailyOverview.objects.filter(user=user).order_by('-timestamp').first()
+        all_portfolios=PortfolioDailyOverview.objects.filter(user=user).order_by('-timestamp')
+        latest_portfolio=all_portfolios.first()
         if(latest_portfolio==None): 
             tm=datetime.datetime.now()-datetime.timedelta(days=1)
             _create_daily_portfolio(user,tm,False)
-            latest_portfolio=PortfolioDailyOverview.objects.filter(user=user).order_by('-timestamp').first()
+            all_portfolios=PortfolioDailyOverview.objects.filter(user=user).order_by('-timestamp')
+            latest_portfolio=all_portfolios.first()
+        
+        if(all_portfolios.filter(timestamp__lte=end_date).count()==0):
+            latest_portfolio=all_portfolios.last()
+        else:
+            latest_portfolio=all_portfolios.filter(timestamp__lte=end_date).first()
+        
         
 
         categories={
@@ -367,7 +376,8 @@ def get_daily_investments(req):
 @auth_required
 def get_all_daily_portfolio_for_graph(req):
     try:
-        daily_portfolio=PortfolioDailyOverview.objects.filter(user=req.pmp_user).order_by('-timestamp')[:10]
+        end_date=req.GET.get('end_date',datetime.datetime.now())
+        daily_portfolio=PortfolioDailyOverview.objects.filter(user=req.pmp_user).order_by('-timestamp').filter(timestamp__lte=end_date)
         return JsonResponse(status=200,data={"message":"Fetched daily portfolio successfully","data":PortfolioDailySerializerForTable(daily_portfolio,many=True).data})
 
     except Exception as e:
