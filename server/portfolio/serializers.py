@@ -87,7 +87,7 @@ class PortfolioDailySerializer(serializers.ModelSerializer):
         #         "type":"green"
         #     }
         
-        return data
+        # return data
     # def to_representation(self, data):
     #     data = super(PortfolioSerializer, self).to_representation(data)
     #     data['avgBasis']=data['avg_buy_price']
@@ -119,7 +119,11 @@ category: "Technology",
       portfolioPercent: 12.5,
       categoryPercent: 10.2,
 """
-
+class PortfolioDailySerializerForTable(serializers.ModelSerializer):
+    
+    class Meta:
+        model = PortfolioDailyOverview
+        fields = '__all__'
 
 class WatchlistSerializer(serializers.ModelSerializer):
     class Meta:

@@ -20,6 +20,7 @@ urlpatterns = [
     path('get_monthly_investments',views.get_monthly_investments),
     path('get_daily_investments',views.get_daily_investments),
     path('create_daily_portfolio_for_all',views.create_daily_portfolio_for_all_user),
+    path('get_historic_portfolios',views.get_all_daily_portfolio_for_graph),
     
 ]
 

@@ -5,7 +5,7 @@ from .models import TransactionItem,Watchlist,Portfolio, PortfolioDailyOverview
 import json
 from assets.models import Asset
 from asset_pricing.models import asset_pricing
-from .serializers import TransactionItemSerializer,PortfolioSerializer,WatchlistSerializer,WatchlistWithAssestsSerializer ,PortfolioDailySerializer
+from .serializers import TransactionItemSerializer,PortfolioSerializer,WatchlistSerializer,WatchlistWithAssestsSerializer ,PortfolioDailySerializer,PortfolioDailySerializerForTable
 from django.db import transaction
 from notifications.views import create_notification
 from pmp_user.models import pmp_user as User
@@ -363,3 +363,13 @@ def get_daily_investments(req):
     except Exception as e:
         print(e)
         return JsonResponse(status=400,data={"message":"Error while getting daily investments"})
+    
+@auth_required
+def get_all_daily_portfolio_for_graph(req):
+    try:
+        daily_portfolio=PortfolioDailyOverview.objects.filter(user=req.pmp_user).order_by('-timestamp')[:10]
+        return JsonResponse(status=200,data={"message":"Fetched daily portfolio successfully","data":PortfolioDailySerializerForTable(daily_portfolio,many=True).data})
+
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while getting daily portfolio"})
