@@ -260,7 +260,8 @@ def put_daily_pricing_api(request):
         
         if(data_crypto['queryCount'] and data_crypto['queryCount']>0):
             data_crypto=list(filter(lambda x:x['T'] in required_tickers,data_crypto['results']))
-
+            
+            today_date=datetime.now()
             for i in data_crypto:
                 if(not Asset.objects.filter(ticker=i['T']).exists()):
                     Asset.objects.create(ticker=i['T'],description=i['T'],category="crypto",name=i['T'])
