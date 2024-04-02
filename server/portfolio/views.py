@@ -248,6 +248,7 @@ def get_user_metrics(request):
 import datetime
 #This is used to create portfolio daily  and can be used with cron or similar schedulers
 def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now(),res=True):
+    
     try:
         # create_notification(user_id,"UPDATE","Latest daily portfolio created")        
         portfolio=Portfolio.objects.filter(user=user_id).filter(quantity__gt=0)
@@ -289,9 +290,10 @@ def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now(),res=True):
                     metrics['percent_change_overall_pl']=round(metrics['change_overall_pl']/last_portfolio.overall_pl*100,2)
             
             portf=PortfolioDailyOverview.objects.create(user=user_id,timestamp=timestamp,**metrics)
+            
             if res:
                 return portf
-
+            
             return JsonResponse(status=200,data={"message":"Daily Portfolio created successfully"})
         return JsonResponse(status=400,data={"message":"Error while creating daily portfolio"})
     except Exception as e:
@@ -299,10 +301,12 @@ def _create_daily_portfolio(user_id,timestamp=datetime.datetime.now(),res=True):
         return JsonResponse(status=400,data={"message":"Error while creating daily portfolio"})
     
 def create_daily_portfolio_for_all_user(request):
+    from utils.email_handler import send_portfolio_email_template
     try:
         users=User.objects.all()
         for user in users:
-            _create_daily_portfolio(user,datetime.datetime.now())
+            daily_port=_create_daily_portfolio(user,datetime.datetime.now())
+            send_portfolio_email_template(user.email,daily_port.invested_value,daily_port.market_value,daily_port.overall_pl)
             create_notification(user,"UPDATE","Latest daily portfolio created")
         return JsonResponse(status=200,data={"message":"Daily Portfolio created successfully"})
     except Exception as e:
@@ -388,6 +392,7 @@ def get_all_daily_portfolio_for_graph(req):
 @auth_required
 def download_csv_portfolio(req):
     from utils.document_builder import create_xlsx_from_portfolio_details
+    
     from django.http import HttpResponse
     try:
         daily_portfolio=PortfolioDailyOverview.objects.filter(user=req.pmp_user).order_by('-timestamp')
@@ -400,10 +405,13 @@ def download_csv_portfolio(req):
         response = HttpResponse(file_data, content_type='application/ms-excel')
         filename=f"Portfolio_{datetime.datetime.now().date().strftime('%d-%m-%Y')}.xlsx"
         response['Content-Disposition'] = f'attachment; filename={filename}'
+        ## Asynchronously send email
+        
         return response
     except IOError:
         # handle file not exist case here
         response = JsonResponse('Error in Downloading File', status=404)
+        
 
     
     except Exception as e:
