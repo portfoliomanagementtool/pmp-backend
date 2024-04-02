@@ -5,3 +5,5 @@ env
 venv_1
 
 testfile.py
+temp/
+*_portfolio_details.xlsx

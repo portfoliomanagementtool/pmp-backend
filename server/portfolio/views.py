@@ -383,3 +383,29 @@ def get_all_daily_portfolio_for_graph(req):
     except Exception as e:
         print(e)
         return JsonResponse(status=400,data={"message":"Error while getting daily portfolio"})
+    
+
+@auth_required
+def download_csv_portfolio(req):
+    from utils.document_builder import create_xlsx_from_portfolio_details
+    from django.http import HttpResponse
+    try:
+        daily_portfolio=PortfolioDailyOverview.objects.filter(user=req.pmp_user).order_by('-timestamp')
+        portfolio=Portfolio.objects.filter(user=req.pmp_user).filter(quantity__gt=0)
+        transactions=TransactionItem.objects.filter(user=req.pmp_user)
+        create_xlsx_from_portfolio_details(PortfolioDailySerializerForTable(daily_portfolio,many=True).data,req.pmp_user.email,PortfolioSerializer(portfolio,many=True).data,TransactionItemSerializer(transactions,many=True).data)
+        file_data=open(f'{req.pmp_user.email}_portfolio_details.xlsx', 'rb')
+        
+
+        response = HttpResponse(file_data, content_type='application/ms-excel')
+        filename=f"Portfolio_{datetime.datetime.now().date().strftime('%d-%m-%Y')}.xlsx"
+        response['Content-Disposition'] = f'attachment; filename={filename}'
+        return response
+    except IOError:
+        # handle file not exist case here
+        response = JsonResponse('Error in Downloading File', status=404)
+
+    
+    except Exception as e:
+        print(e)
+        return JsonResponse(status=400,data={"message":"Error while getting daily portfolio"})
