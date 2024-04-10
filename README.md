@@ -13,17 +13,12 @@ To get started with the backend development environment, follow these steps:
    git clone https://github.com/portfoliomanagementtool/pmp-backend.git
    ```
 
-2. **Navigate to the project directory:**
-   ```
-   cd pmp-backend
-   ```
-
-3. **Create a virtual environment:**
+2. **Create a virtual environment:**
    ```
    python -m venv env
    ```
 
-4. **Activate the virtual environment:**
+3. **Activate the virtual environment:**
    - On Windows:
      ```
      env\Scripts\activate
@@ -33,6 +28,11 @@ To get started with the backend development environment, follow these steps:
      source env/bin/activate
      ```
 
+4. **Navigate to the project directory:**
+   ```
+   cd pmp-backend
+   ```
+   
 5. **Install dependencies:**
    ```
    pip install -r requirements.txt
@@ -44,13 +44,17 @@ To get started with the backend development environment, follow these steps:
      ```
      docker-compose up -d
      ```
+7. **Navigate to the server directory:**
+   ```
+   cd server
+   ```
 
-7. **Apply database migrations:**
+8. **Apply database migrations:**
    ```
    python manage.py migrate
    ```
 
-8. **Start the development server:**
+9. **Start the development server:**
    ```
    python manage.py runserver
    ```
